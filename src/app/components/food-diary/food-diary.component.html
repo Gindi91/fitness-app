@@ -13,3 +13,96 @@
     <app-weight-tracker></app-weight-tracker>
   </section>
 </div>
+
+<div class="history-section">
+  @for (date of nutritionService.groupedHistory() | keyvalue; track date.key) {
+    <div class="day-group">
+      <h3 class="date-header">{{ date.key }}</h3>
+
+      @for (mealType of nutritionService.mealOrder; track mealType) {
+        @if (date.value[mealType]; as foods) {
+          <div class="meal-block">
+            <h4 class="meal-title">{{ mealType }}</h4>
+            
+            @for (food of foods; track food.id) {
+              <div class="food-item">
+                <div class="food-info">
+                  <span class="name">{{ food.name }}</span>
+                  <span class="macros">P: {{food.protein}}g | C: {{food.carbs}}g | F: {{food.fat}}g</span>
+                </div>
+                <div class="food-actions">
+                  <span class="kcals">{{ food.calories }} kcal</span>
+                  <button class="btn-icon delete" (click)="nutritionService.deleteEntry(food.id)">🗑️</button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  } @empty {
+    <p class="empty-msg">Nessun alimento inserito. Inizia aggiungendo il tuo primo pasto!</p>
+  }
+</div>
+
+
+<!-- Tasto Flottante (FAB) per aggiungere -->
+<button class="fab-add" (click)="toggleAddFood()">+</button>
+
+<!-- Overlay Form -->
+@if (showAddFood()) {
+  <div class="overlay" (click)="toggleAddFood()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <h3>Nuovo Alimento</h3>
+        <button class="close-x" (click)="toggleAddFood()">✕</button>
+      </header>
+
+      <div class="modal-body">
+        <!-- Sezione 1: Info Base -->
+        <div class="form-section">
+          <div class="input-group">
+            <label>Nome</label>
+            <input type="text" [(ngModel)]="foodName" placeholder="Es. Pollo e riso">
+          </div>
+          
+          <div class="form-row">
+            <div class="input-group">
+              <label>Pasto</label>
+              <select [(ngModel)]="selectedTag">
+                @for (t of tags; track t) {
+                  <option [value]="t">{{ t }}</option>
+                }
+              </select>
+            </div>
+            <div class="input-group">
+              <label>Data</label>
+              <input type="date" [(ngModel)]="selectedDate">
+            </div>
+          </div>
+        </div>
+
+        <!-- Sezione 2: Macro (Griglia 3 colonne) -->
+        <div class="macro-inputs">
+          <div class="input-group">
+            <label>Prot (g)</label>
+            <input type="number" [(ngModel)]="newP" inputmode="numeric">
+          </div>
+          <div class="input-group">
+            <label>Carb (g)</label>
+            <input type="number" [(ngModel)]="newC" inputmode="numeric">
+          </div>
+          <div class="input-group">
+            <label>Fat (g)</label>
+            <input type="number" [(ngModel)]="newF" inputmode="numeric">
+          </div>
+        </div>
+      </div>
+
+      <footer class="modal-actions">
+        <button class="btn-cancel" (click)="toggleAddFood()">Annulla</button>
+        <button class="btn-save" (click)="saveFood()">Salva Alimento</button>
+      </footer>
+    </div>
+  </div>
+}
