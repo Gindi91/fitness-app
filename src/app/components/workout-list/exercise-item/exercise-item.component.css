@@ -1,0 +1,111 @@
+.exercise-card {
+  border-left: 5px solid #3498db; /* Blu palestra */
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.edit-row {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+.inline-input {
+  width: 45px;
+  border: 1px solid transparent;
+  background: #f8f9fa;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-family: inherit;
+  font-weight: bold;
+  color: #2c3e50;
+  transition: all 0.2s;
+}
+
+.inline-input:hover {
+  border-color: #bdc3c7;
+}
+
+.inline-input:focus {
+  outline: none;
+  border-color: #27ae60;
+  background: white;
+  box-shadow: 0 0 5px rgba(39, 174, 96, 0.2);
+}
+
+.inline-input::-webkit-inner-spin-button,
+.inline-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.note-row {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.note-input {
+  width: 90%; /* Non occupa tutto lo spazio per non toccare i tasti */
+  border: none;
+  border-bottom: 1px dashed #ccc; /* Effetto "sottolineato" discreto */
+  background: transparent;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #7f8c8d;
+  padding: 2px 0;
+  transition: border-color 0.2s;
+}
+
+.note-input:focus {
+  outline: none;
+  border-bottom: 1px solid #27ae60;
+  color: #2c3e50;
+}
+
+.note-input::placeholder {
+  color: #bdc3c7;
+  font-weight: 300;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s;
+}
+
+.btn-delete:hover {
+  transform: scale(1.2);
+}
+
+.drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 15px;
+  color: #bdc3c7;
+  cursor: grab; 
+  font-size: 1.5rem;
+  user-select: none;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  color: #27ae60;
+}

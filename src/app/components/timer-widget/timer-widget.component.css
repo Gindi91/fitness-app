@@ -1,0 +1,59 @@
+.overlay {
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1001;
+}
+
+.timer-card {
+    position: relative; width: 90%; max-width: 400px;
+    background: #2c2c2e; padding: 2rem; border-radius: 2rem;
+    text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.display {
+    position: relative; width: 200px; height: 200px;
+    margin: 0 auto 1.5rem; display: flex; justify-content: center; align-items: center;
+}
+
+.progress-ring { position: absolute; inset: 0; transform: rotate(-90deg); pointer-events: none; }
+.progress-ring__circle { transition: stroke-dashoffset 1s linear, stroke 0.5s ease; stroke-linecap: round; }
+
+.time-text {
+    font: 800 3rem monospace; font-variant-numeric: tabular-nums;
+    margin: 0; color: white; z-index: 2; line-height: 1;
+}
+
+.pulse { animation: pulse 1s infinite ease-in-out; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+.controls, .custom-actions, .custom-input-container { display: flex; gap: 0.75rem; width: 100%; }
+.custom-input-container { flex-direction: column; }
+
+button {
+    flex: 1; padding: 0.8rem; border: none; border-radius: 0.75rem;
+    font-weight: bold; cursor: pointer; color: white;
+    background-color: #27ae60; transition: filter 0.2s ease;
+}
+button:active { filter: brightness(1.2); }
+
+.btn-warning { background-color: #ffcc00; color: black; }
+.btn-danger { background-color: #ff3b30; }
+
+.single-time-input {
+    width: 100%; box-sizing: border-box;
+    background: #1c1c1e; border: 2px solid #27ae60;
+    color: white; padding: 0.8rem; border-radius: 0.75rem;
+    text-align: center; font: bold 2rem monospace; outline: none;
+}
+.single-time-input:focus { border-color: #2ecc71; box-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
+
+.fab-timer {
+    position: fixed; bottom: 20px; right: 20px;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: #27ae60; color: white; border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 999; font-weight: bold;
+}
+
+.close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #8e8e93; font-size: 1.2rem; }

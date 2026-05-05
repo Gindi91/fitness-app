@@ -1,0 +1,33 @@
+<div class="summary-card">
+  <!-- Cerchio Calorie (Stesso stile del timer) -->
+  <div class="calorie-chart">
+    <svg viewBox="0 0 100 100">
+      <circle class="bg" cx="50" cy="50" r="45"></circle>
+      <circle class="progress" cx="50" cy="50" r="45"
+              [style.stroke-dashoffset]="282.6 * (1 - nutritionService.calProgress() / 100)"></circle>
+    </svg>
+    <div class="info">
+      <span class="main-val">{{ nutritionService.currentCalories() }}</span>
+      <span class="sub-val">kcal / {{ nutritionService.targetCalories() }}</span>
+    </div>
+  </div>
+
+  <!-- Progress Bars Macro -->
+  <div class="macro-bars">
+    @for (macro of [
+      {label: 'Pro', val: nutritionService.currentProtein(), target: nutritionService.targetProtein(), pct: nutritionService.protProgress(), class: 'prot'},
+      {label: 'Cho', val: nutritionService.currentCarbs(), target: nutritionService.targetCarbs(), pct: nutritionService.carbsProgress(), class: 'carbs'},
+      {label: 'Fat', val: nutritionService.currentFat(), target: nutritionService.targetFat(), pct: nutritionService.fatProgress(), class: 'fat'}
+    ]; track macro.label) {
+      <div class="macro-row">
+        <div class="macro-labels">
+          <span>{{ macro.label }}</span>
+          <span>{{ macro.val }}g / {{ macro.target }}g</span>
+        </div>
+        <div class="bar-bg">
+          <div class="bar-fill" [ngClass]="macro.class" [style.width.%]="macro.pct"></div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

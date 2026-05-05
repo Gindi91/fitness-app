@@ -1,0 +1,27 @@
+.summary-card {
+  background: #2c2c2e; border-radius: 2rem; padding: 2rem;
+  display: flex; gap: 2rem; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.calorie-chart { position: relative; width: 140px; height: 140px; }
+svg { transform: rotate(-90deg); }
+circle { fill: none; stroke-width: 8; stroke-linecap: round; }
+.bg { stroke: #3a3a3c; }
+.progress { 
+  stroke: #27ae60; stroke-dasharray: 282.6; 
+  transition: stroke-dashoffset 0.5s ease; 
+}
+
+.info {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+}
+.main-val { font-size: 1.8rem; font-weight: 800; color: white; }
+.sub-val { font-size: 0.7rem; color: #8e8e93; }
+
+.macro-bars { flex: 1; display: flex; flex-direction: column; gap: 1rem; }
+.macro-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: white; margin-bottom: 5px; }
+.bar-bg { background: #3a3a3c; height: 8px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; transition: width 0.5s ease; }
+
+.prot { background: #ff3b30; } .carbs { background: #007aff; } .fat { background: #ffcc00; }

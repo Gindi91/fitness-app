@@ -1,0 +1,15 @@
+<button *ngIf="!mostraForm" class="btn-add" (click)="mostraForm = true">
+  + Aggiungi Esercizio
+</button>
+
+<div class="add-form" *ngIf="mostraForm">
+  <h3>Nuovo Esercizio</h3>
+  <input type="text" [(ngModel)]="nuovoNome" placeholder="Nome esercizio">
+  <input type="number" [(ngModel)]="nuovoCarico" placeholder="Kg">
+  
+  <div class="form-actions">
+    <button class="btn-save" (click)="inviaEsercizio()">Salva</button>
+    <button class="btn-cancel" (click)="resetForm()">Annulla</button>
+  </div>
+</div>
+

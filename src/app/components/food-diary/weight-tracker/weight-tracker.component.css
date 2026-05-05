@@ -1,0 +1,7 @@
+.weight-card {
+  background: #2c2c2e; border-radius: 2rem; padding: 1.5rem; margin-top: 1.5rem;
+  color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.add-btn { background: #27ae60; border: none; border-radius: 50%; width: 30px; height: 30px; color: white; cursor: pointer; }
+.chart-placeholder { height: 200px; display: flex; justify-content: center; align-items: center; color: #8e8e93; }

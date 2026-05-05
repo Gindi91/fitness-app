@@ -1,0 +1,69 @@
+<button class="fab-timer" (click)="toggleTimer()">
+@if (timerService.isRunning()) {
+    {{ (timerService.timeLeft() * 1000) | date:'mm:ss' }}
+} @else {
+    ⏱️
+}
+</button>
+
+<!-- Schermata Timer (compare solo se isVisible è true) -->
+@if (isVisible()) {
+    <div class="overlay" (click)="toggleTimer()">
+        <div class="timer-card" (click)="$event.stopPropagation()">
+        
+        <div class="display">
+            <!-- L'SVG sta sotto grazie a position: absolute -->
+            <svg class="progress-ring" width="200" height="200">
+                <circle class="progress-ring__background" stroke="#3a3a3c" stroke-width="8" fill="transparent" r="90" cx="100" cy="100"/>
+                <circle class="progress-ring__circle" 
+                [attr.stroke]="getStrokeColor(timerService.timeLeft())"
+                stroke-width="8" fill="transparent" r="90" cx="100" cy="100"
+                [style.stroke-dashoffset]="calculateOffset(timerService.progress())"
+                stroke-dasharray="565.48" />
+            </svg>
+            
+            <!-- Il testo è centrato dal Flexbox di .display -->
+            <span class="time-text" [class.pulse]="timerService.isRunning() && timerService.timeLeft() < 10">
+                {{ (timerService.timeLeft() * 1000) | date:'mm:ss' }}
+            </span>
+        </div>
+
+
+        <div class="controls">
+            @if (!timerService.isRunning()) {
+            @if (timerService.timeLeft() === 0) {
+                @if (!timerService.showCustomInput()) {
+                    <!-- Tasti rapidi: scompaiono se showCustomInput è true -->
+                    <button (click)="timerService.start(60)">1:00</button>
+                    <button (click)="timerService.start(90)">1:30</button>
+                    <button (click)="timerService.toggleCustom()">Imposta</button>
+                } @else {
+<!-- Tab Custom: Appare al posto dei tasti 1:00 e 1:30 -->
+<div class="custom-input-container">
+  <input type="text" 
+         [value]="timerService.customTimeStr()" 
+         (input)="timerService.onTimeInput($event)"
+         placeholder="00:00"
+         inputmode="numeric"
+         class="single-time-input">
+  
+  <div class="custom-actions">
+    <button class="btn-primary" (click)="timerService.startCustom()">Via</button>
+    <button class="btn-danger" (click)="timerService.toggleCustom()">Annulla</button>
+  </div>
+</div>
+
+                }
+
+            } @else {
+                <button class="btn-primary" (click)="timerService.resume()">Riprendi</button>
+            }
+            } @else {
+            <button class="btn-warning" (click)="timerService.pause()">Pausa</button>
+            <button class="btn-danger" (click)="timerService.reset()">Reset</button>
+            }
+            <button class="close-btn" (click)="toggleTimer()">✕</button>
+        </div>
+        </div>
+    </div>
+}

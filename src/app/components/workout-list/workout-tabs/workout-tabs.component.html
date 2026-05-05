@@ -1,0 +1,16 @@
+<div class="tabs-container">
+  <div class="tabs">
+    <button *ngFor="let scheda of schede; let i = index" 
+            (click)="seleziona(i)"
+            [class.active]="attivaIndex === i">
+      {{ scheda.nomeScheda }}
+    </button>
+    
+    <button class="btn-tab-add" (click)="mostraFormScheda = !mostraFormScheda"> + </button>
+  </div>
+</div>
+
+<div *ngIf="mostraFormScheda" class="add-tab-inline">
+  <input type="text" [(ngModel)]="nuovaSchedaNome" placeholder="Nome nuova scheda..." (keyup.enter)="creaScheda()">
+  <button class="btn-add" (click)="creaScheda()">Crea</button>
+</div>

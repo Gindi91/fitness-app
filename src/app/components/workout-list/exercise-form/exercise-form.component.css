@@ -1,0 +1,77 @@
+.add-form {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px dashed #ccc;
+}
+
+.form-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-save { 
+    background-color: #27ae60; 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.btn-cancel { 
+    background-color: #e74c3c; 
+    color: white; 
+    border: none; 
+    padding: 10px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.add-form h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+/* Stile per gli input del form */
+.add-form input {
+  width: 100%; /* Occupa tutta la larghezza disponibile */
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  box-sizing: border-box; /* Fondamentale per non far uscire l'input dal bordo */
+  transition: border-color 0.3s;
+}
+
+.add-form input:focus {
+  outline: none;
+  border-color: #27ae60;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(39, 174, 96, 0.1);
+}
+
+/* Se preferisci gli input sulla stessa riga su schermi grandi */
+@media (min-width: 600px) {
+  .add-form input[type="text"] {
+    width: 70%;
+    margin-right: 10px;
+    margin-bottom: 0;
+  }
+  .add-form input[type="number"] {
+    width: 25%;
+    margin-bottom: 0;
+  }
+}
+
+.form-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}

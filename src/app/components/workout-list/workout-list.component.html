@@ -1,0 +1,48 @@
+<h2>I miei Allenamenti</h2>
+
+<app-workout-tabs 
+  [schede]="schede" 
+  [attivaIndex]="schedaAttivaIndex" 
+  (cambiaTab)="schedaAttivaIndex = $event" 
+  (onAggiungiScheda)="aggiungiScheda($event)">
+</app-workout-tabs>
+
+@if (schedaCorrente) {
+  <div class="header-scheda">
+    <h2>Scheda: {{ schedaCorrente.nomeScheda }}</h2>
+    <div class="header-actions">
+      <button class="btn-reset-scheda" (click)="resettaSchedaCorrente()">Reset</button>
+      <button class="btn-delete-scheda" (click)="rimuoviSchedaCorrente()">Elimina questa scheda</button>
+    </div>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-label">Progresso Allenamento: {{ percentualeCompletamento }}%</div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" [style.width.%]="percentualeCompletamento"></div>
+    </div>
+  </div>
+
+  <app-timer-widget></app-timer-widget>
+  <hr>
+
+<div cdkDropList (cdkDropListDropped)="onDrop($any($event))">
+    @for (ex of schedaCorrente.esercizi; track ex.id) {
+      <app-exercise-item 
+        [esercizio]="ex" 
+        cdkDrag
+        (onToggle)="toggleCompletato(ex)" 
+        (onElimina)="eliminaEsercizio(ex)">
+        
+        <div class="drag-placeholder" *cdkDragPlaceholder></div>
+      </app-exercise-item>
+    } @empty {
+      <p style="text-align: center; color: #666; margin: 20px 0;">
+        Nessun esercizio presente. Aggiungine uno per iniziare!
+      </p>
+    }
+  </div>
+
+  <app-exercise-form (onAggiungi)="aggiungiEsercizio($event)"></app-exercise-form>
+
+}

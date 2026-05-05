@@ -1,0 +1,29 @@
+[
+  {
+    "id": 101,
+    "nomeScheda": "Gambe",
+    "esercizi": [
+      { "id": 1, "nome": "Squat", "serie": 4, "ripetizioni": 10, "carico": 80, "completato": false },
+      { "id": 2, "nome": "Leg Press", "serie": 3, "ripetizioni": 12, "carico": 120, "completato": false },
+      { "id": 3, "nome": "Affondi", "serie": 3, "ripetizioni": 10, "carico": 20, "completato": false }
+    ]
+  },
+  {
+    "id": 102,
+    "nomeScheda": "Bicipiti-Tricipiti",
+    "esercizi": [
+      { "id": 4, "nome": "Curl Bilanciere", "serie": 4, "ripetizioni": 10, "carico": 30, "completato": false },
+      { "id": 5, "nome": "Pushdown", "serie": 3, "ripetizioni": 12, "carico": 25, "completato": false },
+      { "id": 6, "nome": "Hammer Curl", "serie": 3, "ripetizioni": 10, "carico": 14, "completato": false }
+    ]
+  },
+  {
+    "id": 103,
+    "nomeScheda": "Petto-Schiena",
+    "esercizi": [
+      { "id": 7, "nome": "Panca Piana", "serie": 4, "ripetizioni": 8, "carico": 70, "completato": false },
+      { "id": 8, "nome": "Rematore", "serie": 4, "ripetizioni": 10, "carico": 50, "completato": false },
+      { "id": 9, "nome": "Croci Manubri", "serie": 3, "ripetizioni": 12, "carico": 16, "completato": false }
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+<div class="exercise-card">
+    <div class="drag-handle" cdkDragHandle>
+        ⠿
+    </div>
+    <div style="flex-grow: 1;">
+        <strong>{{ esercizio.nome }}</strong>
+        
+        <div class="edit-row">
+            <span>Serie: <input type="number" [(ngModel)]="esercizio.serie" class="inline-input"></span>
+            <span>Ripetizioni: <input type="number" [(ngModel)]="esercizio.ripetizioni" class="inline-input"></span>
+            <span>Carico (Kg): <input type="number" [(ngModel)]="esercizio.carico" class="inline-input"></span>
+        </div>
+
+        <div class="note-row">
+            <input type="text" [(ngModel)]="esercizio.note" placeholder="Aggiungi una nota..." class="note-input">
+        </div>
+    </div>
+    
+    <div class="actions">
+        <button class="btn-add" 
+                [style.background-color]="esercizio.completato ? '#95a5a6' : '#27ae60'" 
+                (click)="toggle()">
+        {{ esercizio.completato ? 'Fatto' : 'Completa' }}
+        </button>
+
+        <button class="btn-delete" (click)="elimina()">🗑️</button>
+    </div>
+</div>
+
+        

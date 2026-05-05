@@ -1,0 +1,55 @@
+.tabs-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  min-height: 45px;
+  border: none;
+  background: #ecf0f1;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.tabs button.active {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-tab-add {
+  background-color: #27ae60;
+  color: white;
+  font-size: 1.2rem;
+  width: 45px;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+.add-tab-inline {
+  margin-bottom: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+}
+
+.add-tab-inline input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  flex-grow: 1;
+}
