@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,11 +12,13 @@ import { ExerciseItemComponent } from './components/workout-list/exercise-item/e
 import { ExerciseFormComponent } from './components/workout-list/exercise-form/exercise-form.component';
 import { WorkoutTabsComponent } from './components/workout-list/workout-tabs/workout-tabs.component';
 
+
 @NgModule({ declarations: [
         AppComponent,
         DashboardComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        WorkoutListComponent,
-        AppRoutingModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+    bootstrap: [AppComponent], 
+    imports: [BrowserModule, WorkoutListComponent, AppRoutingModule], 
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideCharts(withDefaultRegisterables())] 
+})
 export class AppModule { }

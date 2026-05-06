@@ -1,0 +1,6 @@
+[
+  { "id": 1, "name": "Yogurt Greco e Avena", "grams": 250, "protein": 25, "carbs": 40, "fat": 5, "calories": 305, "date": "2024-05-05T08:00:00Z", "tag": "Colazione" },
+  { "id": 2, "name": "Riso e Pollo", "grams": 350, "protein": 45, "carbs": 60, "fat": 8, "calories": 492, "date": "2024-05-05T13:00:00Z", "tag": "Pranzo" },
+  { "id": 3, "name": "Salmone e Verdure", "grams": 300, "protein": 35, "carbs": 10, "fat": 20, "calories": 360, "date": "2024-05-06T20:00:00Z", "tag": "Cena" },
+  { "id": 4, "name": "Pasta Integrale al Tonno", "grams": 400, "protein": 30, "carbs": 75, "fat": 12, "calories": 528, "date": "2024-05-06T13:30:00Z", "tag": "Pranzo" }
+]

@@ -1,11 +1,13 @@
 // services/nutrition/nutrition.service.ts
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 export type MealTag = 'Colazione' | 'Pranzo' | 'Cena' | 'Merenda 1' | 'Merenda 2';
 
 export interface FoodEntry {
   id: number;
   name: string;
+  grams: number;
   protein: number;
   carbs: number;
   fat: number;
@@ -14,8 +16,32 @@ export interface FoodEntry {
   tag: MealTag;
 }
 
+export interface WeightEntry {
+  date: Date;
+  value: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class NutritionService {
+
+  private http = inject(HttpClient);
+  
+  constructor() {
+    this.loadInitialData();
+  }
+
+  private loadInitialData() {
+    // Caricamento alimenti
+    this.http.get<FoodEntry[]>('assets/data/alimenti.json').subscribe(data => {
+      this.foodHistory.set(data.map(f => ({...f, date: new Date(f.date)})));
+    });
+
+    // Caricamento pesi
+    this.http.get<WeightEntry[]>('assets/data/pesi.json').subscribe(data => {
+      this.weightHistory.set(data.map(w => ({...w, date: new Date(w.date)})));
+    });
+  }
+
   // Obiettivi giornalieri
   targetCalories = signal(2500);
   targetProtein = signal(150);
@@ -48,11 +74,11 @@ export class NutritionService {
 
   deleteEntry(id: number) {
     this.foodHistory.update(h => h.filter(e => e.id !== id));
-    }
+  }
 
     readonly mealOrder: MealTag[] = ['Colazione', 'Merenda 1', 'Pranzo', 'Merenda 2', 'Cena'];
 
-    groupedHistory = computed(() => {
+  groupedHistory = computed(() => {
     const history = this.foodHistory();
     const groups: { [date: string]: { [meal in MealTag]?: FoodEntry[] } } = {};
 
@@ -68,6 +94,27 @@ export class NutritionService {
     });
 
     return groups;
+  });
+
+  weightHistory = signal<WeightEntry[]>([
+    { date: new Date('2024-05-01'), value: 80.5 },
+    { date: new Date('2024-05-03'), value: 80.2 },
+    { date: new Date('2024-05-05'), value: 79.8 }
+  ]);
+
+  addWeight(value: number, date: Date) {
+    this.weightHistory.update(h => [...h, { date, value }].sort((a,b) => a.date.getTime() - b.date.getTime()));
+  }
+
+  // Helper per ottenere le calorie totali raggruppate per data (per il grafico)
+  caloriesPerDay = computed(() => {
+    const history = this.foodHistory();
+    const daily: { [date: string]: number } = {};
+    history.forEach(f => {
+      const d = new Date(f.date).toLocaleDateString();
+      daily[d] = (daily[d] || 0) + f.calories;
     });
+    return daily;
+  });
 }
 

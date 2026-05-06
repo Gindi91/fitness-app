@@ -21,6 +21,7 @@ export class FoodDiaryComponent {
     constructor(public nutritionService: NutritionService) {}
 
     foodName = '';
+    newGrams = 100;
     newP = 0; newC = 0; newF = 0;
     selectedTag: MealTag = 'Pranzo';
     selectedDate = new Date().toISOString().split('T')[0];
@@ -33,6 +34,7 @@ export class FoodDiaryComponent {
     saveFood() {
         this.nutritionService.addEntry({
         name: this.foodName || 'Nuovo Alimento',
+        grams: this.newGrams,
         protein: this.newP,
         carbs: this.newC,
         fat: this.newF,
@@ -45,6 +47,7 @@ export class FoodDiaryComponent {
 
     private resetForm() {
         this.foodName = ''; this.newP = 0; this.newC = 0; this.newF = 0;
+        this.newGrams = 100;
     }
 
 }

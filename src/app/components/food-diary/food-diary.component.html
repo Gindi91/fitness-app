@@ -27,7 +27,7 @@
             @for (food of foods; track food.id) {
               <div class="food-item">
                 <div class="food-info">
-                  <span class="name">{{ food.name }}</span>
+                  <span class="name">{{ food.name }} ({{ food.grams }}g)</span>
                   <span class="macros">P: {{food.protein}}g | C: {{food.carbs}}g | F: {{food.fat}}g</span>
                 </div>
                 <div class="food-actions">
@@ -65,6 +65,11 @@
             <label>Nome</label>
             <input type="text" [(ngModel)]="foodName" placeholder="Es. Pollo e riso">
           </div>
+
+            <div class="input-group">
+              <label>Quantità (g)</label>
+              <input type="number" [(ngModel)]="newGrams" inputmode="numeric">
+            </div>
           
           <div class="form-row">
             <div class="input-group">

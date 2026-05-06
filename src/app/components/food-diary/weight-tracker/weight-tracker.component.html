@@ -3,8 +3,46 @@
     <h3>Andamento Peso</h3>
     <button class="add-btn">+</button>
   </div>
-  <div class="chart-placeholder">
-    <!-- Qui inietteremo il grafico con ng2-charts -->
-    <p>Grafico in caricamento...</p>
+<div class="weight-card">
+  <div class="header">
+    <div class="tabs">
+      <button [class.active]="activeTab() === 'weight'" (click)="activeTab.set('weight')">Peso</button>
+      <button [class.active]="activeTab() === 'calories'" (click)="activeTab.set('calories')">Calorie</button>
+    </div>
+    <button class="add-btn" (click)="showWeightForm.set(true)">+</button>
   </div>
+
+<div class="chart-container">
+  @if (activeTab() === 'weight') {
+    <!-- Grafico del Peso -->
+    <canvas baseChart
+      [data]="weightChartData()"
+      [options]="chartOptions"
+      [type]="'line'">
+    </canvas>
+  } @else {
+    <!-- Grafico delle Calorie -->
+    <canvas baseChart
+      [data]="caloriesChartData()"
+      [options]="chartOptions"
+      [type]="'bar'">
+    </canvas>
+  }
+</div>
+
+  <!-- Mini Form Overlay per aggiungere peso -->
+  @if (showWeightForm()) {
+    <div class="mini-overlay">
+      <div class="mini-card">
+        <h4>Registra Peso</h4>
+        <input type="number" [(ngModel)]="tempWeight" placeholder="kg" step="0.1">
+        <input type="date" [(ngModel)]="tempDate">
+        <div class="actions">
+          <button (click)="showWeightForm.set(false)">Annulla</button>
+          <button class="save" (click)="saveWeight()">Salva</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
 </div>

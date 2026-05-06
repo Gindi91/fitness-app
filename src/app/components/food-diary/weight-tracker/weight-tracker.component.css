@@ -5,3 +5,41 @@
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
 .add-btn { background: #27ae60; border: none; border-radius: 50%; width: 30px; height: 30px; color: white; cursor: pointer; }
 .chart-placeholder { height: 200px; display: flex; justify-content: center; align-items: center; color: #8e8e93; }
+
+.tabs {
+  display: flex;
+  background: #1c1c1e;
+  padding: 4px;
+  border-radius: 12px;
+  gap: 4px;
+}
+
+.tabs button {
+  background: none;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #8e8e93;
+}
+
+.tabs button.active {
+  background: #3a3a3c;
+  color: white;
+}
+
+.mini-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 2rem; z-index: 10;
+}
+
+.mini-card { background: #2c2c2e; padding: 1.5rem; border-radius: 1rem; width: 80%; }
+.mini-card input { width: 100%; margin: 10px 0; background: #1c1c1e; border: 1px solid #3a3a3c; color: white; padding: 8px; border-radius: 6px; }
+
+.chart-container {
+  position: relative;
+  height: 250px; /* Cruciale: senza questo il grafico non si vede */
+  width: 100%;
+  margin-top: 1rem;
+}
