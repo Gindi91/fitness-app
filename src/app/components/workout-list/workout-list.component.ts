@@ -93,13 +93,12 @@ constructor(private workoutService: WorkoutService, private cdr: ChangeDetectorR
     }
   }
 
-
   private lanciaCoriandoli() {
     confetti({
       particleCount: 150,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#27ae60', '#2ecc71', '#ffffff'] // Colori a tema salute/palestra
+      colors: ['#f97316', '#f97316', '#e4e4e7'] // Colori a tema salute/palestra
     });
   }
   

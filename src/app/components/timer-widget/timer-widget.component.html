@@ -59,7 +59,7 @@
                 <button class="btn-primary" (click)="timerService.resume()">Riprendi</button>
             }
             } @else {
-            <button class="btn-warning" (click)="timerService.pause()">Pausa</button>
+            <button class="btn-pause" (click)="timerService.pause()">Pausa</button>
             <button class="btn-danger" (click)="timerService.reset()">Reset</button>
             }
             <button class="close-btn" (click)="toggleTimer()">✕</button>

@@ -1,7 +1,6 @@
 <div class="weight-card">
   <div class="header">
     <h3>Andamento Peso</h3>
-    <button class="add-btn">+</button>
   </div>
 <div class="weight-card">
   <div class="header">
@@ -38,8 +37,8 @@
         <input type="number" [(ngModel)]="tempWeight" placeholder="kg" step="0.1">
         <input type="date" [(ngModel)]="tempDate">
         <div class="actions">
-          <button (click)="showWeightForm.set(false)">Annulla</button>
-          <button class="save" (click)="saveWeight()">Salva</button>
+          <button type="button" (click)="showWeightForm.set(false)">Annulla</button>
+          <button type="button" class="save" (click)="saveWeight()">Salva</button>
         </div>
       </div>
     </div>

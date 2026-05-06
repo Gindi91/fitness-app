@@ -14,42 +14,53 @@
 .tabs button {
   padding: 10px 20px;
   min-height: 45px;
-  border: none;
-  background: #ecf0f1;
+  border: 1px solid var(--bg-input);
+  background: var(--bg-input); /* Zinco scuro */
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  color: var(--text-muted);
   transition: all 0.2s;
   display: flex;
   align-items: center;
 }
 
 .tabs button.active {
-  background-color: #27ae60;
+  background-color: var(--palestra); /* Arancio */
   color: white;
+  border-color: var(--palestra);
 }
 
 .btn-tab-add {
-  background-color: #27ae60;
-  color: white;
+  background-color: var(--bg-input);
+  color: var(--palestra);
+  border: 1px dashed var(--palestra);
   font-size: 1.2rem;
   width: 45px;
+  height: 45px;
+  display: flex;
   justify-content: center;
+  align-items: center;
   margin-left: 8px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .add-tab-inline {
   margin-bottom: 15px;
   padding: 15px;
-  background: #f8f9fa;
+  background: var(--bg-card);
   border-radius: 8px;
+  border: 1px solid var(--bg-input);
   display: flex;
   gap: 10px;
 }
 
 .add-tab-inline input {
+  background: var(--bg-app);
+  color: var(--text-main);
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--bg-input);
   border-radius: 4px;
   flex-grow: 1;
 }

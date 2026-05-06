@@ -1,59 +1,164 @@
+/* Timer Widget - Schema Iron & Fire */
+
 .overlay {
-    position: fixed; inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
-    display: flex; justify-content: center; align-items: center;
+    position: fixed; 
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85); /* Leggermente più scuro per risaltare l'arancio */
+    backdrop-filter: blur(8px);
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
     z-index: 1001;
 }
 
 .timer-card {
-    position: relative; width: 90%; max-width: 400px;
-    background: #2c2c2e; padding: 2rem; border-radius: 2rem;
-    text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    position: relative; 
+    width: 90%; 
+    max-width: 400px;
+    background: var(--bg-card); /* Zinco scuro */
+    padding: 2rem; 
+    border-radius: var(--radius);
+    text-align: center; 
+    box-shadow: var(--shadow);
+    border: 1px solid var(--bg-input);
 }
 
 .display {
-    position: relative; width: 200px; height: 200px;
-    margin: 0 auto 1.5rem; display: flex; justify-content: center; align-items: center;
+    position: relative; 
+    width: 200px; 
+    height: 200px;
+    margin: 0 auto 1.5rem; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
 }
 
-.progress-ring { position: absolute; inset: 0; transform: rotate(-90deg); pointer-events: none; }
-.progress-ring__circle { transition: stroke-dashoffset 1s linear, stroke 0.5s ease; stroke-linecap: round; }
+.progress-ring { 
+    position: absolute; 
+    inset: 0; 
+    transform: rotate(-90deg); 
+    pointer-events: none; 
+}
+
+.progress-ring__background {
+    stroke: var(--bg-input); /* Grigio zinco scuro per non distrarre */
+}
+
+.progress-ring__circle {
+    transition: stroke-dashoffset 1s linear, stroke 0.4s ease;
+    stroke-linecap: round;
+    /* La proprietà stroke verrà gestita dal [attr.stroke] nel template */
+}
 
 .time-text {
-    font: 800 3rem monospace; font-variant-numeric: tabular-nums;
-    margin: 0; color: white; z-index: 2; line-height: 1;
+    font: 800 3rem monospace; 
+    font-variant-numeric: tabular-nums;
+    margin: 0; 
+    color: var(--text-main); 
+    z-index: 2; 
+    line-height: 1;
 }
 
 .pulse { animation: pulse 1s infinite ease-in-out; }
-@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+@keyframes pulse { 
+    0%, 100% { transform: scale(1); } 
+    50% { transform: scale(1.1); color: var(--palestra); } 
+}
 
-.controls, .custom-actions, .custom-input-container { display: flex; gap: 0.75rem; width: 100%; }
+.controls, .custom-actions, .custom-input-container { 
+    display: flex; 
+    gap: 0.75rem; 
+    width: 100%; 
+}
+
 .custom-input-container { flex-direction: column; }
 
 button {
-    flex: 1; padding: 0.8rem; border: none; border-radius: 0.75rem;
-    font-weight: bold; cursor: pointer; color: white;
-    background-color: #27ae60; transition: filter 0.2s ease;
+    flex: 1; 
+    padding: 0.8rem; 
+    border: none; 
+    border-radius: var(--radius);
+    font-weight: 700; 
+    cursor: pointer; 
+    color: white;
+    background-color: var(--palestra); /* Arancio Neon */
+    transition: filter 0.2s ease, transform 0.1s;
 }
-button:active { filter: brightness(1.2); }
 
-.btn-warning { background-color: #ffcc00; color: black; }
-.btn-danger { background-color: #ff3b30; }
+button:active { 
+    filter: brightness(1.2); 
+    transform: scale(0.98);
+}
+
+.btn-warning { background-color: var(--warning); color: black; }
+.btn-danger { background-color: var(--danger); color: white; }
 
 .single-time-input {
-    width: 100%; box-sizing: border-box;
-    background: #1c1c1e; border: 2px solid #27ae60;
-    color: white; padding: 0.8rem; border-radius: 0.75rem;
-    text-align: center; font: bold 2rem monospace; outline: none;
+    width: 100%; 
+    box-sizing: border-box;
+    background: var(--bg-app); 
+    border: 2px solid var(--bg-input);
+    color: var(--palestra); 
+    padding: 0.8rem; 
+    border-radius: var(--radius);
+    text-align: center; 
+    font: bold 2rem monospace; 
+    outline: none;
 }
-.single-time-input:focus { border-color: #2ecc71; box-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
+
+.single-time-input:focus { 
+    border-color: var(--palestra); 
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.2); 
+}
 
 .fab-timer {
-    position: fixed; bottom: 20px; right: 20px;
-    width: 60px; height: 60px; border-radius: 50%;
-    background: #27ae60; color: white; border: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 999; font-weight: bold;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: var(--palestra);
+    color: white;
+    border: none;
+    box-shadow: var(--shadow);
+    z-index: 999;
+    
+    /* CENTRAGGIO FORZATO */
+    display: flex;
+    justify-content: center; /* Centra orizzontalmente */
+    align-items: center;     /* Centra verticalmente */
+    padding: 0;              /* Rimuove padding che potrebbero spostare il testo */
+    
+    font-family: monospace;  /* Opzionale: rende i numeri più stabili */
+    font-size: 0.9rem;       /* Regola la dimensione se il testo è troppo grande */
+    font-weight: 800;
+    cursor: pointer;
 }
 
-.close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #8e8e93; font-size: 1.2rem; }
+.close-btn { 
+    position: absolute; 
+    top: 15px; 
+    right: 15px; 
+    background: none; 
+    border: none; 
+    color: var(--text-muted); 
+    font-size: 1.5rem; 
+    cursor: pointer;
+}
+
+button.btn-pause {
+    background-color: var(--palestra); /* Ora è un bottone pieno Arancio */
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+}
+
+
+
+/* Se mancano meno di 10 secondi, aggiungiamo un effetto glow rosso */
+.pulse {
+    animation: pulse 1s infinite ease-in-out;
+    text-shadow: 0 0 15px var(--danger);
+}

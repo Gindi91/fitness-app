@@ -1,6 +1,6 @@
 <div class="food-diary-page">
   <header class="page-header">
-    <h1>Diario Alimentare & Progresso</h1>
+    <h2 class="section-title title-nutrizione">Diario Alimentare & Progresso</h2>
   </header>
 
   <!-- Sezione 1: Riepilogo Macro Giornaliero -->
@@ -55,7 +55,6 @@
     <div class="modal-card" (click)="$event.stopPropagation()">
       <header class="modal-header">
         <h3>Nuovo Alimento</h3>
-        <button class="close-x" (click)="toggleAddFood()">✕</button>
       </header>
 
       <div class="modal-body">
@@ -104,10 +103,10 @@
         </div>
       </div>
 
-      <footer class="modal-actions">
-        <button class="btn-cancel" (click)="toggleAddFood()">Annulla</button>
-        <button class="btn-save" (click)="saveFood()">Salva Alimento</button>
-      </footer>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" (click)="toggleAddFood()">Annulla</button>
+        <button type="button" class="btn-save" (click)="saveFood()">Salva Alimento</button>
+      </div>
     </div>
   </div>
 }

@@ -1,45 +1,133 @@
 .weight-card {
-  background: #2c2c2e; border-radius: 2rem; padding: 1.5rem; margin-top: 1.5rem;
-  color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  background: var(--bg-card); border-radius: var(--radius); 
+  padding: 1.5rem; margin-top: 1.5rem;
+  border: 1px solid var(--bg-input); box-shadow: var(--shadow);
 }
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-.add-btn { background: #27ae60; border: none; border-radius: 50%; width: 30px; height: 30px; color: white; cursor: pointer; }
-.chart-placeholder { height: 200px; display: flex; justify-content: center; align-items: center; color: #8e8e93; }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+/* Se il tasto + deve stare accanto ai tab */
+.tabs-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 
 .tabs {
-  display: flex;
-  background: #1c1c1e;
-  padding: 4px;
-  border-radius: 12px;
-  gap: 4px;
+  display: inline-flex; background: var(--bg-app);
+  padding: 4px; border-radius: 12px; gap: 4px;
 }
 
 .tabs button {
-  background: none;
-  padding: 6px 16px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  color: #8e8e93;
+  background: transparent; color: var(--text-muted);
+  padding: 6px 16px; border-radius: 8px; border: none;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer;
 }
 
 .tabs button.active {
-  background: #3a3a3c;
-  color: white;
+  background: var(--bg-input); color: white;
 }
 
-.mini-overlay {
-  position: absolute; inset: 0;
-  background: rgba(0,0,0,0.8);
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 2rem; z-index: 10;
+.add-btn { 
+    background-color: var(--nutrizione) !important;
+    border: none; border-radius: 50%; 
+    width: 35px; height: 35px; cursor: pointer;
 }
 
-.mini-card { background: #2c2c2e; padding: 1.5rem; border-radius: 1rem; width: 80%; }
-.mini-card input { width: 100%; margin: 10px 0; background: #1c1c1e; border: 1px solid #3a3a3c; color: white; padding: 8px; border-radius: 6px; }
+.mini-card { 
+    background: var(--bg-card); border: 1px solid var(--bg-input);
+    padding: 2rem; border-radius: var(--radius); 
+}
 
-.chart-container {
-  position: relative;
-  height: 250px; /* Cruciale: senza questo il grafico non si vede */
-  width: 100%;
-  margin-top: 1rem;
+/* Sfondo oscurato dietro il form */
+.overlay, .mini-overlay {
+    position: fixed; inset: 0;
+    background: rgba(9, 9, 11, 0.85); /* Nero profondo semitrasparente */
+    backdrop-filter: blur(8px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1100;
+}
+
+/* La card del form */
+.modal-card, .mini-card {
+    background: var(--bg-card);
+    width: 90%; max-width: 450px;
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    border: 1px solid var(--bg-input);
+    box-shadow: var(--shadow);
+}
+
+/* Titoli dei form */
+.modal-card h3 {
+    color: var(--palestra); /* Arancio Iron */
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.mini-card h4 {
+    color: var(--nutrizione) !important; 
+}
+
+/* Input allineati allo stile scuro */
+input, select {
+    width: 100%;
+    background: var(--bg-app);
+    border: 1px solid var(--bg-input);
+    color: var(--text-main);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+input:focus {
+    border-color: var(--nutrizione) !important;
+}
+
+/* 1. Contenitore dei tasti: li distanzia e li allinea */
+.actions {
+    display: flex;
+    gap: 12px;           /* Spazio tra i due tasti */
+    margin-top: 20px;    /* Distanza dagli input sopra */
+    width: 100%;
+}
+
+/* 2. Stile comune per entrambi i bottoni */
+.actions button {
+    flex: 1;             /* Entrambi i tasti occupano lo stesso spazio */
+    padding: 12px;       /* Più alti e facili da premere */
+    border: none;
+    border-radius: var(--radius); /* Stesso arrotondamento delle card */
+    font-weight: 800;    /* Font Bold come in palestra */
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 3. Tasto SALVA: Arancione Iron */
+.actions button.save {
+    background-color: var(--nutrizione) !important;
+    box-shadow: 0 4px 10px rgba(132, 204, 22, 0.3) !important; /* Glow verde lime */
+}
+
+/* 4. Tasto ANNULLA: Grigio scuro/neutro */
+.actions button:not(.save) {
+    background-color: var(--bg-input);
+    color: var(--text-main);
+}
+
+/* Effetto al passaggio del mouse o click */
+.actions button:active {
+    transform: scale(0.95);
+    filter: brightness(1.2);
 }

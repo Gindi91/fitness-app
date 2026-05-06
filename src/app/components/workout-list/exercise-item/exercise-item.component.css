@@ -1,111 +1,138 @@
 .exercise-card {
-  border-left: 5px solid #3498db; /* Blu palestra */
-  background: #fff;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 4px;
+  border-left: 5px solid var(--palestra);
+  background: var(--bg-card); /* Zinco scuro invece di bianco */
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);
+  color: var(--text-main);
+}
+
+.exercise-name {
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .edit-row {
   display: flex;
   gap: 15px;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-muted);
   margin-top: 5px;
 }
 
 .inline-input {
-  width: 45px;
-  border: 1px solid transparent;
-  background: #f8f9fa;
+  width: 50px;
+  border: 1px solid var(--bg-input);
+  background: var(--bg-app);
   border-radius: 4px;
-  padding: 2px 5px;
-  font-family: inherit;
+  padding: 4px;
   font-weight: bold;
-  color: #2c3e50;
-  transition: all 0.2s;
-}
-
-.inline-input:hover {
-  border-color: #bdc3c7;
-}
-
-.inline-input:focus {
-  outline: none;
-  border-color: #27ae60;
-  background: white;
-  box-shadow: 0 0 5px rgba(39, 174, 96, 0.2);
-}
-
-.inline-input::-webkit-inner-spin-button,
-.inline-input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.note-row {
-  margin-top: 8px;
-  width: 100%;
+  color: var(--palestra);
+  text-align: center;
 }
 
 .note-input {
-  width: 90%; /* Non occupa tutto lo spazio per non toccare i tasti */
+  width: 100%;
   border: none;
-  border-bottom: 1px dashed #ccc; /* Effetto "sottolineato" discreto */
+  border-bottom: 1px dashed var(--bg-input);
   background: transparent;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-style: italic;
-  color: #7f8c8d;
-  padding: 2px 0;
-  transition: border-color 0.2s;
+  color: var(--text-muted);
+  padding: 4px 0;
 }
 
 .note-input:focus {
   outline: none;
-  border-bottom: 1px solid #27ae60;
-  color: #2c3e50;
+  border-bottom: 1px solid var(--palestra);
+  color: var(--text-main);
 }
 
-.note-input::placeholder {
-  color: #bdc3c7;
-  font-weight: 300;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.btn-complete { /* Il bottone Fatto/Completa */
+  background-color: var(--palestra);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .btn-delete {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  padding: 5px;
-  transition: transform 0.2s;
-}
-
-.btn-delete:hover {
-  transform: scale(1.2);
+  color: var(--text-muted);
 }
 
 .drag-handle {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: 15px;
-  color: #bdc3c7;
-  cursor: grab; 
-  font-size: 1.5rem;
+  padding-right: 20px; /* Più spazio dai contenuti */
+  color: var(--text-muted); /* Grigio chiaro per vederle bene sul nero */
+  cursor: grab;
+  font-size: 1.1rem; /* Ridimensionate per essere eleganti */
   user-select: none;
+  opacity: 0.6; /* Leggermente trasparenti finché non ci passi sopra */
+  transition: opacity 0.2s;
+}
+
+.drag-handle:hover {
+  opacity: 1;
+  color: var(--palestra); /* Diventa arancione quando vuoi trascinare */
+}
+
+/* Stile base del bottone di stato */
+.btn-status {
+    background-color: var(--palestra); /* Arancio Neon */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    min-width: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* Quando l'esercizio è segnato come Fatto */
+.btn-status.completed {
+    background-color: var(--bg-input) !important; /* Grigio zinco */
+    color: var(--text-muted) !important;
+    opacity: 0.7;
+}
+
+/* Icona maniglia ridimensionata e centrata */
+.drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 15px;
+    color: var(--text-muted);
+    cursor: grab;
+    font-size: 1.1rem; /* Dimensione corretta */
+    user-select: none;
 }
 
 .drag-handle:active {
-  cursor: grabbing;
-  color: #27ae60;
+    cursor: grabbing;
+    color: var(--palestra);
 }
+
+/* Titolo esercizio per risaltare sul fondo scuro */
+.exercise-name {
+    color: var(--text-main);
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 4px;
+}
+

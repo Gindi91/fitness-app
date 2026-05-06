@@ -6,10 +6,11 @@
   font-weight: 600;
   margin-bottom: 8px;
   display: block;
+  color: var(--text-main);
 }
 
 .progress-bar-bg {
-  background-color: #ecf0f1;
+  background-color: var(--bg-input);
   border-radius: 10px;
   height: 12px;
   width: 100%;
@@ -17,37 +18,9 @@
 }
 
 .progress-bar-fill {
-  background-color: #27ae60;
+  background-color: var(--palestra); /* Arancio */
   height: 100%;
-  transition: width 0.4s ease-in-out; /* Animazione fluida dello slider */
-}
-
-.tabs button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  min-height: 45px;
-  border: none;
-  background: #ecf0f1;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-family: inherit;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.tabs button.active {
-  background-color: #27ae60;
-  color: white;
-}
-
-.tabs-container {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  transition: width 0.4s ease-in-out;
 }
 
 .header-scheda {
@@ -63,49 +36,37 @@
   align-items: center;
 }
 
-.btn-reset-scheda, .btn-delete-scheda {
-  margin: 0;
-  white-space: nowrap;
-}
-
 .btn-reset-scheda {
-  background-color: #27ae60;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  background-color: var(--bg-input);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 8px 12px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-weight: bold;
 }
 
 .btn-delete-scheda {
-  background-color: #c0392b;
+  background-color: var(--danger);
   color: white;
   border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 0.8rem;
 }
 
-/* L'elemento mentre fluttua sotto il mouse */
+/* Drag and Drop Dark */
 .cdk-drag-preview {
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  background: var(--bg-card);
+  border: 1px solid var(--palestra);
+  box-shadow: var(--shadow);
   border-radius: 12px;
 }
 
-/* Lo spazio vuoto che si crea nella lista mentre sposti */
 .drag-placeholder {
-  background: #f1f3f5;
-  border: 2px dashed #dee2e6;
+  background: var(--bg-app);
+  border: 2px dashed var(--bg-input);
   min-height: 100px;
   margin-bottom: 15px;
   border-radius: 12px;
 }
-
-/* Animazione fluida degli altri esercizi che si spostano per far posto */
-.cdk-drop-list-dragging .cdk-drag {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-

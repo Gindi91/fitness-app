@@ -25,9 +25,10 @@ export class TimerWidgetComponent {
   }
 
   getStrokeColor(seconds: number): string {
-    if (seconds < 5) return '#ff3b30'; // Verde
-    if (seconds < 10) return '#f1c40f'; // Giallo
-    return '#27ae60'; // Rosso
+    if (seconds <= 10) {
+      return 'var(--danger)'; // Rosso (#ef4444)
+    } else {
+      return 'var(--palestra)'; // Arancione (#f97316)
+    }
   }
-
 }
