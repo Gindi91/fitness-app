@@ -2,14 +2,28 @@
 
 <app-workout-tabs 
   [schede]="schede" 
-  [attivaIndex]="schedaAttivaIndex" 
-  (cambiaTab)="schedaAttivaIndex = $event" 
+  [attivaIndex]="schedaAttivaIndex()" 
+  (cambiaTab)="schedaAttivaIndex.set($event)" 
   (onAggiungiScheda)="aggiungiScheda($event)">
 </app-workout-tabs>
+
 
 @if (schedaCorrente) {
   <div class="header-scheda">
     <h2>Scheda: {{ schedaCorrente.nomeScheda }}</h2>
+
+      <!-- Selettore Giorni Settimanali -->
+      <div class="day-picker">
+        @for (day of ['D', 'L', 'M', 'M', 'G', 'V', 'S']; track $index) {
+          <button 
+            class="day-chip" 
+            [class.active]="schedaCorrente.giorniSettimana.includes($index)"
+            (click)="toggleGiorno($index)">
+            {{ day }}
+          </button>
+        }
+      </div>
+
     <div class="header-actions">
       <button class="btn-reset-scheda" (click)="resettaSchedaCorrente()">Reset</button>
       <button class="btn-delete-scheda" (click)="rimuoviSchedaCorrente()">Elimina questa scheda</button>

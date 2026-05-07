@@ -1,0 +1,224 @@
+.dashboard-container {
+    padding: 1.5rem;
+    padding-bottom: 100px;
+}
+
+.dashboard-header {
+    margin-bottom: 2rem;
+}
+
+.date-subtitle {
+    color: var(--text-muted);
+    text-transform: capitalize;
+    font-weight: 600;
+    margin-top: -1.5rem;
+}
+
+/* Griglia dei Widget */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Card Base */
+.stat-card {
+    background-color: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid var(--bg-input);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:active {
+    transform: scale(0.98);
+}
+
+.palestra-border { border-top: 4px solid var(--palestra); }
+.nutrizione-border { border-top: 4px solid var(--nutrizione); }
+
+.card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-label {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.card-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0.5rem 0;
+    color: var(--text-main);
+}
+
+.card-value small { font-size: 1rem; color: var(--text-muted); }
+
+.card-sub {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Mini Progress Bar */
+.mini-progress-container {
+    margin-bottom: 1.5rem;
+}
+
+.mini-bar-bg {
+    background-color: var(--bg-app);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.mini-bar-fill {
+    height: 100%;
+    background-color: var(--nutrizione);
+    transition: width 0.6s ease-in-out;
+    box-shadow: 0 0 10px rgba(132, 204, 22, 0.3);
+}
+
+.progress-percent {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+/* Bottoni Dashboard */
+.btn-action-palestra, .btn-action-nutrizione, .btn-secondary {
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    margin-top: auto;
+}
+
+.btn-action-palestra { background-color: var(--palestra); color: white; }
+.btn-action-nutrizione { background-color: var(--nutrizione); color: white; }
+.btn-secondary { background-color: var(--bg-input); color: var(--text-main); }
+
+/* Widget Peso Rapido */
+.weight-row {
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
+}
+
+.weight-trend {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.weight-trend.negative { color: var(--nutrizione); } /* Peso che scende = Verde */
+.weight-trend.positive { color: var(--danger); }    /* Peso che sale = Rosso (se in cut) */
+
+.physical-unified-card {
+    border-left: 4px solid var(--nutrizione);
+}
+
+.physical-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 2rem;
+}
+
+/* Sezione Peso */
+.weight-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-display {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.unit {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-muted);
+}
+
+/* Sezione BMI */
+.bmi-box {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.bmi-header {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.bmi-label-tag {
+    font-weight: 800;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* FIX VISIBILITÀ: "Sovrappeso" ora ha colore e peso corretto */
+.bmi-status-text {
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    margin-top: -5px;
+}
+
+.card-sub-mini {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 4px 0 0;
+}
+
+.weight-trend {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* Classi di stato per il BMI */
+.status-none { color: var(--text-muted); }
+
+.status-warning { 
+  color: #f59e0b !important; /* Arancio/Giallo Iron & Fire */
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.2); 
+}
+
+.status-success { 
+  color: #84cc16 !important; /* Lime Nutrizione */
+  text-shadow: 0 0 10px rgba(132, 204, 22, 0.2);
+}
+
+.status-danger { 
+  color: #ef4444 !important; /* Rosso Danger */
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.bmi-status-text {
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}

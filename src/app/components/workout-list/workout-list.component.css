@@ -70,3 +70,42 @@
   margin-bottom: 15px;
   border-radius: 12px;
 }
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.day-picker {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.day-chip {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--bg-input);
+    background: var(--bg-app);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.day-chip.active {
+    background-color: var(--palestra); /* Arancio Iron */
+    color: white;
+    border-color: var(--palestra);
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+}
+
+.day-chip:hover:not(.active) {
+    border-color: var(--text-muted);
+}

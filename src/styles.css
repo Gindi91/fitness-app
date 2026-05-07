@@ -111,3 +111,26 @@ nav a:hover, nav a.active {
 .btn-add:active {
   transform: translateY(0);
 }
+
+.nav-link {
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 5px;
+}
+
+/* Evidenziatori dinamici */
+.active-dash { 
+    color: var(--nutrizione) !important; 
+    border-bottom-color: var(--nutrizione);
+}
+
+.active-pal { 
+    color: var(--palestra) !important; 
+    border-bottom-color: var(--palestra);
+}
+
+.active-nut { 
+    color: var(--nutrizione) !important; 
+    border-bottom-color: var(--nutrizione);
+}

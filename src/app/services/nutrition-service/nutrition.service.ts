@@ -1,4 +1,3 @@
-// services/nutrition/nutrition.service.ts
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -116,5 +115,51 @@ export class NutritionService {
     });
     return daily;
   });
+
+    altezza = signal<number>(175);
+
+  updateAltezza(nuovaAltezza: number) {
+    this.altezza.set(nuovaAltezza);
+  }
+
+  ultimoPeso = computed(() => {
+    const history = this.weightHistory();
+    return history.length > 0 ? history[history.length - 1].value : 0;
+  });
+
+  penultimoPeso = computed(() => {
+    const history = this.weightHistory();
+    return history.length > 1 ? history[history.length - 2].value : 0;
+  }); 
+
+  // Calcolo del BMI: peso / (altezza_in_metri * altezza_in_metri)
+  bmi = computed(() => {
+    const peso = this.ultimoPeso();
+    const altezzaCm = this.altezza();
+    
+    if (peso === 0 || altezzaCm === 0) return 0;
+    
+    const altezzaM = altezzaCm / 100;
+    return parseFloat((peso / (altezzaM * altezzaM)).toFixed(1));
+  });
+
+  bmiStatus = computed(() => {
+    const val = this.bmi();
+    if (val === 0) return { label: '--', class: 'status-none' };
+    if (val < 18.5) return { label: 'Sottopeso', class: 'status-warning' };
+    if (val < 25) return { label: 'Normopeso', class: 'status-success' };
+    if (val < 30) return { label: 'Sovrappeso', class: 'status-warning' };
+    return { label: 'Obesità', class: 'status-danger' };
+  });
+
+
+  trend = computed(() => {
+    const ultimo = this.ultimoPeso();
+    const penultimo = this.penultimoPeso();
+    return parseFloat((penultimo - ultimo).toFixed(1));
+  });
+
+  trendAssoluto = computed(() => Math.abs(this.trend()));
+  isTrendPositivo = computed(() => this.trend() >= 0);
 }
 

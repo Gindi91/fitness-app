@@ -1,1 +1,73 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h2 class="section-title">Comando Centrale</h2>
+    <p class="date-subtitle">{{ dataOggi }}</p>
+  </header>
+
+  <div class="summary-grid">
+    <!-- WIDGET PALESTRA -->
+    <div class="stat-card palestra-border">
+      <div class="card-icon">💪</div>
+      <span class="card-label">Allenamento di Oggi</span>
+      
+      @if (workoutService.schedaDiOggi(); as scheda) {
+        <span class="card-value">{{ scheda.nomeScheda }}</span>
+        <p class="card-sub">{{ scheda.esercizi.length }} esercizi programmati</p>
+        <button class="btn-action-palestra" routerLink="/palestra">Inizia Sessione</button>
+      } @else {
+        <span class="card-value">Riposo</span>
+        <p class="card-sub">Goditi il recupero muscolare ⚡</p>
+        <button class="btn-secondary" routerLink="/palestra">Vedi Schede</button>
+      }
+    </div>
+
+    <!-- WIDGET NUTRIZIONE -->
+    <div class="stat-card nutrizione-border">
+      <div class="card-icon">🍎</div>
+      <span class="card-label">Calorie Rimanenti</span>
+      <span class="card-value">{{ calorieRimanenti() }} <small>kcal</small></span>
+      
+      <div class="mini-progress-container">
+        <div class="mini-bar-bg">
+          <div class="mini-bar-fill" [style.width.%]="nutritionService.calProgress()"></div>
+        </div>
+        <span class="progress-percent">{{ nutritionService.currentCalories() }} / {{ nutritionService.targetCalories() }}</span>
+      </div>
+      
+      <button class="btn-action-nutrizione" routerLink="/nutrizione">Apri Diario</button>
+    </div>
+  </div>
+
+<div class="stat-card physical-unified-card">
+  <div class="card-icon">📏</div> 
+  <span class="card-label">Parametri Fisici</span>
+  
+    <div class="physical-grid">
+
+      <div class="weight-box">
+        <div class="main-display">
+          <span class="card-value">{{ nutritionService.ultimoPeso() }}</span>
+          <span class="unit">kg</span>
+        </div>
+
+        @if (nutritionService.trend() !== 0) {
+          <span [class]="nutritionService.isTrendPositivo() ? 'weight-trend negative' : 'weight-trend positive'">
+            {{ nutritionService.isTrendPositivo() ? '↓' : '↑' }} {{ nutritionService.trendAssoluto() }}kg
+          </span>
+        }
+
+      </div>
+
+      <div class="bmi-box">
+        <div class="bmi-header">
+          <span class="card-value">{{ nutritionService.bmi() || '--' }}</span>
+          <span class="bmi-label-tag">BMI</span>
+        </div>
+          <span class="bmi-status-text" [ngClass]="nutritionService.bmiStatus().class">
+            {{ nutritionService.bmiStatus().label }}
+          </span>
+          <p class="card-sub-mini">su {{ nutritionService.altezza() }} cm</p>
+      </div>
+    </div>
+  </div>
+</div>

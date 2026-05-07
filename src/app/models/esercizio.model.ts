@@ -11,5 +11,6 @@ export interface Esercizio {
 export interface Scheda {
   id: number;
   nomeScheda: string;
+  giorniSettimana: number[];
   esercizi: Esercizio[];
 }

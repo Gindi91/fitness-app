@@ -1,7 +1,23 @@
 <div class="weight-card">
-  <div class="header">
-    <h3>Andamento Peso</h3>
+<div class="weight-header-row">
+  <h2 class="section-title title-nutrizione" style="margin-bottom: 0;">Andamento Peso</h2>
+  
+  <div class="profile-mini-stats compact">
+    <div class="stat-item horizontal">
+      <label>La tua altezza</label>
+      <div class="input-wrapper">
+        <input type="number" 
+               [ngModel]="nutritionService.altezza()" 
+               (ngModelChange)="nutritionService.updateAltezza($event)"
+               class="inline-height-input">
+        <span class="unit">cm</span>
+      </div>
+    </div>
   </div>
+</div>
+
+
+
 <div class="weight-card">
   <div class="header">
     <div class="tabs">

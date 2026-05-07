@@ -1,18 +1,77 @@
+/* --- HEADER: TITOLO + ALTEZZA (Affiancati) --- */
+.weight-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem; /* Spazio ridotto verso la card */
+    width: 100%;
+}
+
+/* Box Altezza in versione compatta */
+.profile-mini-stats.compact {
+    background: var(--bg-card);
+    padding: 6px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--bg-input);
+}
+
+.stat-item.horizontal {
+    display: flex;
+    align-items: center; /* Centra verticalmente testo e numero */
+    gap: 12px;           /* Spazio tra "La tua altezza" e il numero */
+}
+
+
+.compact .stat-item label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0;
+    line-height: 1;
+}
+
+.compact .inline-height-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--nutrizione);
+    color: var(--text-main);
+    font-weight: 800;
+    font-size: 1.1rem;
+    width: 45px;
+    text-align: center;
+    padding: 0;
+}
+
+.compact .input-wrapper {
+    display: flex;
+    align-items: baseline;
+}
+
+.compact .input-wrapper span {
+    font-weight: 800;
+    color: var(--nutrizione);
+    font-size: 0.8rem;
+    margin-left: 4px;
+}
+
+/* --- LA CARD DEL GRAFICO --- */
 .weight-card {
-  background: var(--bg-card); border-radius: var(--radius); 
-  padding: 1.5rem; margin-top: 1.5rem;
-  border: 1px solid var(--bg-input); box-shadow: var(--shadow);
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    border: 1px solid var(--bg-input);
+    box-shadow: var(--shadow);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     margin-bottom: 1.5rem;
 }
 
-/* Se il tasto + deve stare accanto ai tab */
 .tabs-wrapper {
     display: flex;
     align-items: center;
@@ -20,65 +79,85 @@
 }
 
 .tabs {
-  display: inline-flex; background: var(--bg-app);
-  padding: 4px; border-radius: 12px; gap: 4px;
+    display: inline-flex;
+    background: var(--bg-app);
+    padding: 4px;
+    border-radius: 12px;
+    gap: 4px;
 }
 
 .tabs button {
-  background: transparent; color: var(--text-muted);
-  padding: 6px 16px; border-radius: 8px; border: none;
-  font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    background: transparent;
+    color: var(--text-muted);
+    padding: 6px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .tabs button.active {
-  background: var(--bg-input); color: white;
+    background: var(--bg-input);
+    color: white;
 }
 
-.add-btn { 
+/* Pulsante "+" Verde Nutrizione */
+.add-btn {
     background-color: var(--nutrizione) !important;
-    border: none; border-radius: 50%; 
-    width: 35px; height: 35px; cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    color: white;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(132, 204, 22, 0.2);
 }
 
-.mini-card { 
-    background: var(--bg-card); border: 1px solid var(--bg-input);
-    padding: 2rem; border-radius: var(--radius); 
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
 }
 
-/* Sfondo oscurato dietro il form */
-.overlay, .mini-overlay {
-    position: fixed; inset: 0;
-    background: rgba(9, 9, 11, 0.85); /* Nero profondo semitrasparente */
+/* --- OVERLAY E MINI-CARD INSERIMENTO --- */
+.mini-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(9, 9, 11, 0.85);
     backdrop-filter: blur(8px);
-    display: flex; justify-content: center; align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1100;
 }
 
-/* La card del form */
-.modal-card, .mini-card {
+.mini-card {
     background: var(--bg-card);
-    width: 90%; max-width: 450px;
+    width: 90%;
+    max-width: 400px;
     border-radius: var(--radius);
     padding: 2.5rem;
     border: 1px solid var(--bg-input);
     box-shadow: var(--shadow);
 }
 
-/* Titoli dei form */
-.modal-card h3 {
-    color: var(--palestra); /* Arancio Iron */
+.mini-card h4 {
+    color: var(--nutrizione) !important;
     font-weight: 800;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
     letter-spacing: 1px;
+    margin-top: 0;
 }
 
-.mini-card h4 {
-    color: var(--nutrizione) !important; 
-}
-
-/* Input allineati allo stile scuro */
-input, select {
+/* --- INPUT E BOTTONI FORM --- */
+input {
     width: 100%;
     background: var(--bg-app);
     border: 1px solid var(--bg-input);
@@ -88,46 +167,98 @@ input, select {
     margin-bottom: 1rem;
     box-sizing: border-box;
     font-family: inherit;
+    outline: none;
 }
 
 input:focus {
     border-color: var(--nutrizione) !important;
 }
 
-/* 1. Contenitore dei tasti: li distanzia e li allinea */
 .actions {
     display: flex;
-    gap: 12px;           /* Spazio tra i due tasti */
-    margin-top: 20px;    /* Distanza dagli input sopra */
-    width: 100%;
+    gap: 12px;
+    margin-top: 20px;
 }
 
-/* 2. Stile comune per entrambi i bottoni */
 .actions button {
-    flex: 1;             /* Entrambi i tasti occupano lo stesso spazio */
-    padding: 12px;       /* Più alti e facili da premere */
+    flex: 1;
+    padding: 12px;
     border: none;
-    border-radius: var(--radius); /* Stesso arrotondamento delle card */
-    font-weight: 800;    /* Font Bold come in palestra */
+    border-radius: var(--radius);
+    font-weight: 800;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-/* 3. Tasto SALVA: Arancione Iron */
 .actions button.save {
     background-color: var(--nutrizione) !important;
-    box-shadow: 0 4px 10px rgba(132, 204, 22, 0.3) !important; /* Glow verde lime */
+    color: white;
+    box-shadow: 0 4px 10px rgba(132, 204, 22, 0.3);
 }
 
-/* 4. Tasto ANNULLA: Grigio scuro/neutro */
 .actions button:not(.save) {
     background-color: var(--bg-input);
     color: var(--text-main);
 }
 
-/* Effetto al passaggio del mouse o click */
 .actions button:active {
     transform: scale(0.95);
-    filter: brightness(1.2);
+}
+
+/* Rimuove le freccette dall'input numero */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.compact label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 0;   /* Rimuove lo spazio sotto dato che è a lato */
+    white-space: nowrap; /* Evita che il testo vada a capo */
+}
+
+/* --- RIMOZIONE FRECCETTE (SPINNERS) --- */
+/* Chrome, Safari, Edge, Opera */
+.inline-height-input::-webkit-outer-spin-button,
+.inline-height-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.compact .input-wrapper {
+    display: flex;
+    align-items: baseline; /* Forza l'allineamento sulla base del testo */
+}
+
+.inline-height-input {
+    -moz-appearance: textfield;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--nutrizione);
+    color: var(--text-main);
+    font-weight: 800;
+    font-size: 1.1rem;
+    width: 40px;
+    text-align: center;
+    outline: none;
+    
+    /* FIX PER IL NUMERO RIALZATO */
+    padding: 0;           /* Rimuove padding interni */
+    margin: 0;            /* Rimuove margini */
+    line-height: 1.2;     /* Normalizza l'altezza del testo */
+    vertical-align: middle;
+}
+
+.unit {
+    font-weight: 800;
+    color: var(--nutrizione);
+    font-size: 0.9rem;
+    margin-left: 2px;
+    align-self: baseline; /* Allinea 'cm' alla base del numero */
 }

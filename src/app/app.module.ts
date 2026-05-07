@@ -15,7 +15,6 @@ import { WorkoutTabsComponent } from './components/workout-list/workout-tabs/wor
 
 @NgModule({ declarations: [
         AppComponent,
-        DashboardComponent,
     ],
     bootstrap: [AppComponent], 
     imports: [BrowserModule, WorkoutListComponent, AppRoutingModule], 

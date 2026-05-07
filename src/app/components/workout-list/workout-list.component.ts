@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Esercizio, Scheda } from '../../models/esercizio.model';
 import { FormsModule } from '@angular/forms';
@@ -12,12 +12,22 @@ import { TimerWidgetComponent } from '../timer-widget/timer-widget.component';
 
 @Component({
     selector: 'app-workout-list',
-    imports: [CommonModule, FormsModule, ExerciseItemComponent, ExerciseFormComponent, WorkoutTabsComponent, DragDropModule, TimerWidgetComponent ],
+    standalone: true,
+    imports: [
+        CommonModule, 
+        FormsModule, 
+        ExerciseItemComponent, 
+        ExerciseFormComponent, 
+        WorkoutTabsComponent, 
+        DragDropModule, 
+        TimerWidgetComponent 
+    ],
     templateUrl: './workout-list.component.html',
     styleUrls: ['./workout-list.component.css']
 })
-
 export class WorkoutListComponent implements OnInit {
+  // Iniezione moderna del servizio
+  private workoutService = inject(WorkoutService);
 
   nuovoNome: string = '';
   nuovoCarico: number = 0;
@@ -26,52 +36,53 @@ export class WorkoutListComponent implements OnInit {
   nuovaSchedaNome: string = '';
   mostraFormScheda: boolean = false;
 
+  // Indice della scheda attiva gestito come Signal
+  schedaAttivaIndex = signal<number>(0);
 
-  schede: Scheda[] = [];
-  schedaAttivaIndex: number = 0;
+  // Computed Signal per ottenere la scheda corrente dal Service
+  readonly schedaCorrenteSignal = computed(() => {
+    const lista = this.workoutService.schede(); // Legge il segnale dal service
+    return (lista && lista.length > 0) ? lista[this.schedaAttivaIndex()] : null;
+  });
 
-constructor(private workoutService: WorkoutService, private cdr: ChangeDetectorRef) {}
-
-  ngOnInit() {
-    this.workoutService.getEsercizi().subscribe({next: (dati) => {
-        this.schede = dati;
-        if (this.schede.length > 0) {
-          this.schedaAttivaIndex = 0;
-        }
-        this.cdr.detectChanges(); 
-      },
-      error: (err) => console.error(err)
-    });
+  // Getter per mantenere la compatibilità con il template esistente
+  get schedaCorrente() {
+    return this.schedaCorrenteSignal();
   }
 
-  get schedaCorrente() {
-    return (this.schede && this.schede.length > 0) 
-      ? this.schede[this.schedaAttivaIndex] 
-      : null;
+  // Getter per le schede totali (dal service)
+  get schede() {
+    return this.workoutService.schede();
+  }
+
+  constructor() {}
+
+  ngOnInit() {
+    // Non serve più il subscribe perché il WorkoutService 
+    // carica i dati nel suo costruttore e li espone tramite segnale
   }
 
   aggiungiEsercizio(nuovoEx: Esercizio) {
-    this.schedaCorrente?.esercizi.push(nuovoEx);
+    if (this.schedaCorrente) {
+      this.schedaCorrente.esercizi.push(nuovoEx);
+    }
   }
 
   eliminaEsercizio(esercizio: Esercizio) {
     const conferma = window.confirm(`Sei sicuro di voler eliminare l'esercizio "${esercizio.nome}"?`);
-
     if (conferma && this.schedaCorrente) {
       this.schedaCorrente.esercizi = this.schedaCorrente.esercizi.filter(ex => ex.id !== esercizio.id);
-      
       if (this.schedaCorrente.esercizi.length > 0 && this.percentualeCompletamento === 100) {
         this.lanciaCoriandoli();
       }
     }
   }
 
-  onDrop(event: CdkDragDrop<any>) { // Usando <any> risolvi il conflitto di assegnazione
+  onDrop(event: CdkDragDrop<any>) {
     if (this.schedaCorrente) {
         moveItemInArray(this.schedaCorrente.esercizi, event.previousIndex, event.currentIndex);
     }
   }
-
 
   toggleCompletato(esercizio: Esercizio) {
     esercizio.completato = !esercizio.completato;
@@ -81,10 +92,11 @@ constructor(private workoutService: WorkoutService, private cdr: ChangeDetectorR
   }
   
   get percentualeCompletamento(): number {
-      if (!this.schedaCorrente || this.schedaCorrente.esercizi.length === 0) return 0;
+      const scheda = this.schedaCorrente;
+      if (!scheda || !scheda.esercizi || scheda.esercizi.length === 0) return 0;
 
-      const completati = this.schedaCorrente.esercizi.filter(ex => ex.completato).length;
-      return Math.round((completati / this.schedaCorrente.esercizi.length) * 100);
+      const completati = scheda.esercizi.filter(ex => ex.completato).length;
+      return Math.round((completati / scheda.esercizi.length) * 100);
   }
 
   resettaSchedaCorrente() {
@@ -98,7 +110,7 @@ constructor(private workoutService: WorkoutService, private cdr: ChangeDetectorR
       particleCount: 150,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#f97316', '#f97316', '#e4e4e7'] // Colori a tema salute/palestra
+      colors: ['#f97316', '#f97316', '#e4e4e7']
     });
   }
   
@@ -106,22 +118,42 @@ constructor(private workoutService: WorkoutService, private cdr: ChangeDetectorR
       const nuova: Scheda = {
         id: Date.now(),
         nomeScheda: nome,
-        esercizi: []
+        esercizi: [],
+        giorniSettimana: [],
       };
-      this.schede.push(nuova);
-      this.schedaAttivaIndex = this.schede.length - 1; // Seleziona la nuova
+      // Usiamo il metodo del servizio per mantenere l'integrità dei dati
+      // (Oppure, se preferisci aggiornare localmente l'array del service)
+      const listaAttuale = [...this.workoutService.schede()];
+      listaAttuale.push(nuova);
+      (this.workoutService as any).schedeSignal.set(listaAttuale); 
+      
+      this.schedaAttivaIndex.set(listaAttuale.length - 1);
   }
 
   rimuoviSchedaCorrente() {
-    if (!this.schedaCorrente) return;
+    const scheda = this.schedaCorrente;
+    if (!scheda) return;
     
-    const nome = this.schedaCorrente.nomeScheda;
-    const conferma = window.confirm(`Eliminare la scheda "${nome}"?`);
-
+    const conferma = window.confirm(`Eliminare la scheda "${scheda.nomeScheda}"?`);
     if (conferma) {
-      this.schede.splice(this.schedaAttivaIndex, 1);
-      this.schedaAttivaIndex = 0;
+      const listaAttuale = this.workoutService.schede().filter(s => s.id !== scheda.id);
+      (this.workoutService as any).schedeSignal.set(listaAttuale);
+      this.schedaAttivaIndex.set(0);
     }
   }
-}
 
+  // Funzione per aggiornare i giorni programmata (da chiamare nel template)
+  toggleGiorno(index: number) {
+    const scheda = this.schedaCorrente;
+    if (!scheda) return;
+
+    let nuoviGiorni = [...(scheda.giorniSettimana || [])];
+    if (nuoviGiorni.includes(index)) {
+      nuoviGiorni = nuoviGiorni.filter(d => d !== index);
+    } else {
+      nuoviGiorni.push(index);
+    }
+    
+    this.workoutService.updateGiorniSettimana(scheda.id, nuoviGiorni);
+  }
+}
