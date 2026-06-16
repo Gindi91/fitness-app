@@ -11,7 +11,7 @@
       <span class="card-label">Allenamento di Oggi</span>
       
       @if (workoutService.schedaDiOggi(); as scheda) {
-        <span class="card-value">{{ scheda.nomeScheda }}</span>
+        <span class="card-value">{{ scheda.nome }}</span>
         <p class="card-sub">{{ scheda.esercizi.length }} esercizi programmati</p>
         <button class="btn-action-palestra" routerLink="/palestra">Inizia Sessione</button>
       } @else {

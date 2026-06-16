@@ -32,14 +32,15 @@ export class FoodDiaryComponent {
     }
 
     saveFood() {
+        // MODIFICATO: Mappatura con le proprietà in italiano coerenti con il Service e Java
         this.nutritionService.addEntry({
-        name: this.foodName || 'Nuovo Alimento',
-        grams: this.newGrams,
-        protein: this.newP,
-        carbs: this.newC,
-        fat: this.newF,
-        tag: this.selectedTag,
-        date: new Date(this.selectedDate)
+          nome: this.foodName || 'Nuovo Alimento',
+          grams: this.newGrams, // Se nel DB Java hai rinominato in grammi, cambia anche qui in grammi
+          proteine: this.newP,
+          carboidrati: this.newC,
+          grassi: this.newF,
+          tag: this.selectedTag,
+          data: this.selectedDate // Passiamo direttamente la stringa (es: "2026-06-16")
         });
         this.showAddFood.set(false);
         this.resetForm();
@@ -48,6 +49,6 @@ export class FoodDiaryComponent {
     private resetForm() {
         this.foodName = ''; this.newP = 0; this.newC = 0; this.newF = 0;
         this.newGrams = 100;
+        this.selectedDate = new Date().toISOString().split('T')[0]; // Reset della data ad oggi
     }
-
 }

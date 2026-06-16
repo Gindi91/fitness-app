@@ -3,33 +3,33 @@ import { HttpClient } from '@angular/common/http';
 
 export type MealTag = 'Colazione' | 'Pranzo' | 'Cena' | 'Merenda 1' | 'Merenda 2';
 
+// 1. ALLINEATO CON JAVA: I campi ora corrispondono esattamente all'entità Java Alimento
 export interface FoodEntry {
   id: number;
-  name: string;
-  grams: number;
-  protein: number;
-  carbs: number;
-  fat: number;
-  calories: number;
-  date: Date;
+  nome: string;        // Mappato da 'name'
+  grams: number;       // Se nel DB Java si chiama grammi, cambialo in 'grammi'
+  proteine: number;    // Mappato da 'protein'
+  carboidrati: number; // Mappato da 'carbs'
+  grassi: number;      // Mappato da 'fat'
+  calorie: number;     // Mappato da 'calories'
+  data: string;        // Java restituisce una stringa (es: "2026-06-16")
   tag: MealTag;
 }
 
+// 2. ALLINEATO CON JAVA: I campi ora corrispondono esattamente all'entità Java Peso
 export interface WeightEntry {
-  id?: number; // Opzionale perché il DB Java lo autogenera
-  date: Date;
-  value: number;
+  id?: number; 
+  data: string;        // Mappato da 'date' (Java restituisce la stringa della data)
+  valore: number;      // Mappato da 'value'
 }
 
 @Injectable({ providedIn: 'root' })
 export class NutritionService {
   private http = inject(HttpClient);
   
-  // Endpoint delle API REST del backend Java
   private foodApiUrl = 'http://localhost:8080/api/alimenti';
   private weightApiUrl = 'http://localhost:8080/api/pesi';
 
-  // Obiettivi giornalieri
   targetCalories = signal(2500);
   targetProtein = signal(150);
   targetCarbs = signal(300);
@@ -37,17 +37,18 @@ export class NutritionService {
 
   foodHistory = signal<FoodEntry[]>([]);
   weightHistory = signal<WeightEntry[]>([]);
-  altezza = signal<number>(175); // Versione 2: Stateless (torna a 175 al refresh)
+  altezza = signal<number>(175);
 
   constructor() {
     this.caricaDatiDalBackend();
   }
 
-  // GET: Scarica alimenti e pesi dal database in memoria di Java
+  // GET: Scarica alimenti e pesi dal database Java
   private caricaDatiDalBackend() {
     this.http.get<FoodEntry[]>(this.foodApiUrl).subscribe({
       next: (data) => {
-        this.foodHistory.set(data.map(f => ({ ...f, date: new Date(f.date) })));
+        // Popoliamo il segnale lasciando la data come stringa leggibile
+        this.foodHistory.set(data);
         console.log('Alimenti caricati da Java:', data);
       },
       error: (err) => console.error('Errore nel caricamento alimenti da Java:', err)
@@ -55,7 +56,7 @@ export class NutritionService {
 
     this.http.get<WeightEntry[]>(this.weightApiUrl).subscribe({
       next: (data) => {
-        this.weightHistory.set(data.map(w => ({ ...w, date: new Date(w.date) })));
+        this.weightHistory.set(data);
         console.log('Storico pesi caricato da Java:', data);
       },
       error: (err) => console.error('Errore nel caricamento pesi da Java:', err)
@@ -63,12 +64,10 @@ export class NutritionService {
   }
 
   // POST: Salva un nuovo alimento nel DB Java
-  addEntry(entry: Omit<FoodEntry, 'id' | 'calories'>) {
+  addEntry(entry: Omit<FoodEntry, 'id' | 'calorie'>) {
     this.http.post<FoodEntry>(this.foodApiUrl, entry).subscribe({
       next: (alimentoSalvato) => {
-        // Ricostruiamo la data come oggetto Date e aggiorniamo il segnale locale
-        const nuovoAlimento = { ...alimentoSalvato, date: new Date(alimentoSalvato.date) };
-        this.foodHistory.update(history => [...history, nuovoAlimento]);
+        this.foodHistory.update(history => [...history, alimentoSalvato]);
       },
       error: (err) => console.error('Errore nel salvataggio dell\'alimento su Java:', err)
     });
@@ -86,21 +85,22 @@ export class NutritionService {
   }
 
   // POST: Salva una nuova misurazione di peso nel DB Java
-  addWeight(value: number, date: Date) {
-    const payload = { value, date };
+  addWeight(valore: number, data: string) {
+    // Il payload ora rispetta le variabili italiane accettate da PesoController
+    const payload = { valore, data };
     this.http.post<WeightEntry>(this.weightApiUrl, payload).subscribe({
       next: (pesoSalvato) => {
-        const nuovoPeso = { ...pesoSalvato, date: new Date(pesoSalvato.date) };
-        this.weightHistory.update(h => [...h, nuovoPeso].sort((a, b) => a.date.getTime() - b.date.getTime()));
+        this.weightHistory.update(h => 
+          [...h, pesoSalvato].sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime())
+        );
       },
       error: (err) => console.error('Errore nel salvataggio del peso su Java:', err)
     });
   }
 
   // DELETE: Elimina una misurazione di peso dal DB Java
-  deleteWeight(dateToDelete: Date) {
-    // Cerchiamo l'ID corrispondente alla data da eliminare
-    const pesoDaEliminare = this.weightHistory().find(w => w.date.getTime() === dateToDelete.getTime());
+  deleteWeight(dataDaEliminare: string) {
+    const pesoDaEliminare = this.weightHistory().find(w => w.data === dataDaEliminare);
     
     if (!pesoDaEliminare || !pesoDaEliminare.id) {
       console.warn('Impossibile trovare l\'ID per eliminare la pesata selezionata');
@@ -118,10 +118,10 @@ export class NutritionService {
     });
   }
 
-  // --- LOGICA COMPUTED INVARIATA ---
-  currentProtein = computed(() => this.foodHistory().reduce((acc, f) => acc + f.protein, 0));
-  currentCarbs = computed(() => this.foodHistory().reduce((acc, f) => acc + f.carbs, 0));
-  currentFat = computed(() => this.foodHistory().reduce((acc, f) => acc + f.fat, 0));
+  // --- LOGICA COMPUTED AGGIORNATA CON I CAMPI IN ITALIANO ---
+  currentProtein = computed(() => this.foodHistory().reduce((acc, f) => acc + f.proteine, 0));
+  currentCarbs = computed(() => this.foodHistory().reduce((acc, f) => acc + f.carboidrati, 0));
+  currentFat = computed(() => this.foodHistory().reduce((acc, f) => acc + f.grassi, 0));
   currentCalories = computed(() => (this.currentProtein() * 4) + (this.currentCarbs() * 4) + (this.currentFat() * 9));
 
   calProgress = computed(() => (this.currentCalories() / this.targetCalories()) * 100);
@@ -135,7 +135,7 @@ export class NutritionService {
     const history = this.foodHistory();
     const groups: { [date: string]: { [meal in MealTag]?: FoodEntry[] } } = {};
     history.forEach(entry => {
-        const dateKey = new Date(entry.date).toLocaleDateString('it-IT', { 
+        const dateKey = new Date(entry.data).toLocaleDateString('it-IT', { 
           weekday: 'long', day: 'numeric', month: 'long' 
         });
         if (!groups[dateKey]) groups[dateKey] = {};
@@ -149,8 +149,8 @@ export class NutritionService {
     const history = this.foodHistory();
     const daily: { [date: string]: number } = {};
     history.forEach(f => {
-      const d = new Date(f.date).toLocaleDateString();
-      daily[d] = (daily[d] || 0) + f.calories;
+      const d = new Date(f.data).toLocaleDateString();
+      daily[d] = (daily[d] || 0) + f.calorie;
     });
     return daily;
   });
@@ -161,12 +161,12 @@ export class NutritionService {
 
   ultimoPeso = computed(() => {
     const history = this.weightHistory();
-    return history.length > 0 ? history[history.length - 1].value : 0;
+    return history.length > 0 ? history[history.length - 1].valore : 0;
   });
 
   penultimoPeso = computed(() => {
     const history = this.weightHistory();
-    return history.length > 1 ? history[history.length - 2].value : 0;
+    return history.length > 1 ? history[history.length - 2].valore : 0;
   }); 
 
   bmi = computed(() => {

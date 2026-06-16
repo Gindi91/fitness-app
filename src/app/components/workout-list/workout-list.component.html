@@ -10,7 +10,7 @@
 
 @if (schedaCorrente) {
   <div class="header-scheda">
-    <h2>Scheda: {{ schedaCorrente.nomeScheda }}</h2>
+    <h2>Scheda: {{ schedaCorrente.nome }}</h2>
 
       <!-- Selettore Giorni Settimanali -->
       <div class="day-picker">
@@ -46,16 +46,14 @@
         [esercizio]="ex" 
         cdkDrag
         (onToggle)="toggleCompletato(ex)" 
-        (onElimina)="eliminaEsercizio(ex)">
+        (onElimina)="eliminaEsercizio(ex)"
+        (onModifica)="salvaModificheScheda()" >
         
         <div class="drag-placeholder" *cdkDragPlaceholder></div>
       </app-exercise-item>
-    } @empty {
-      <p style="text-align: center; color: #666; margin: 20px 0;">
-        Nessun esercizio presente. Aggiungine uno per iniziare!
-      </p>
     }
-  </div>
+</div>
+
 
   <app-exercise-form (onAggiungi)="aggiungiEsercizio($event)"></app-exercise-form>
 

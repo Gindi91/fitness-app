@@ -15,6 +15,7 @@ export class ExerciseItemComponent {
 
   @Output() onToggle = new EventEmitter<void>();
   @Output() onElimina = new EventEmitter<void>();
+  @Output() onModifica = new EventEmitter<void>();
 
   toggle() {
     this.onToggle.emit();
@@ -22,5 +23,10 @@ export class ExerciseItemComponent {
 
   elimina() {
     this.onElimina.emit();
+  }
+
+  // SPIEGAZIONE: Questo metodo viene attivato dagli input HTML quando scatta l'evento (blur)
+  notificaModifica() {
+    this.onModifica.emit();
   }
 }

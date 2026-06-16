@@ -19,7 +19,7 @@ export class ExerciseFormComponent {
   inviaEsercizio() {
     if (this.nuovoNome.trim() !== '') {
       const nuovo: Esercizio = {
-        id: Date.now(),
+        //id: Date.now(),
         nome: this.nuovoNome,
         serie: 3,
         ripetizioni: 10,

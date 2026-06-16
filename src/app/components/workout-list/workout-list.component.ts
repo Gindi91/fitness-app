@@ -41,30 +41,27 @@ export class WorkoutListComponent implements OnInit {
 
   // Computed Signal per ottenere la scheda corrente dal Service
   readonly schedaCorrenteSignal = computed(() => {
-    const lista = this.workoutService.schede(); // Legge il segnale dal service
+    const lista = this.workoutService.schede();
     return (lista && lista.length > 0) ? lista[this.schedaAttivaIndex()] : null;
   });
 
-  // Getter per mantenere la compatibilità con il template esistente
   get schedaCorrente() {
     return this.schedaCorrenteSignal();
   }
 
-  // Getter per le schede totali (dal service)
   get schede() {
     return this.workoutService.schede();
   }
 
   constructor() {}
 
-  ngOnInit() {
-    // Non serve più il subscribe perché il WorkoutService 
-    // carica i dati nel suo costruttore e li espone tramite segnale
-  }
+  ngOnInit() {}
 
   aggiungiEsercizio(nuovoEx: Esercizio) {
     if (this.schedaCorrente) {
       this.schedaCorrente.esercizi.push(nuovoEx);
+      // Sincronizziamo la modifica con il database Java
+      this.workoutService.salvaSchedaSuBackend(this.schedaCorrente);
     }
   }
 
@@ -72,6 +69,10 @@ export class WorkoutListComponent implements OnInit {
     const conferma = window.confirm(`Sei sicuro di voler eliminare l'esercizio "${esercizio.nome}"?`);
     if (conferma && this.schedaCorrente) {
       this.schedaCorrente.esercizi = this.schedaCorrente.esercizi.filter(ex => ex.id !== esercizio.id);
+      
+      // Sincronizziamo la rimozione con il database Java
+      this.workoutService.salvaSchedaSuBackend(this.schedaCorrente);
+
       if (this.schedaCorrente.esercizi.length > 0 && this.percentualeCompletamento === 100) {
         this.lanciaCoriandoli();
       }
@@ -81,13 +82,19 @@ export class WorkoutListComponent implements OnInit {
   onDrop(event: CdkDragDrop<any>) {
     if (this.schedaCorrente) {
         moveItemInArray(this.schedaCorrente.esercizi, event.previousIndex, event.currentIndex);
+        // Sincronizziamo il nuovo ordine degli esercizi su Java
+        this.workoutService.salvaSchedaSuBackend(this.schedaCorrente);
     }
   }
 
   toggleCompletato(esercizio: Esercizio) {
-    esercizio.completato = !esercizio.completato;
-    if (this.percentualeCompletamento === 100) {
-      this.lanciaCoriandoli();
+    if (this.schedaCorrente && this.schedaCorrente.id !== undefined) {
+      const esercizioModificato = { ...esercizio, completato: !esercizio.completato };
+      this.workoutService.aggiornaEsercizio(this.schedaCorrente.id, esercizioModificato);
+      
+      if (this.percentualeCompletamento === 100) {
+        this.lanciaCoriandoli();
+      }
     }
   }
   
@@ -100,8 +107,9 @@ export class WorkoutListComponent implements OnInit {
   }
 
   resettaSchedaCorrente() {
-    if (this.percentualeCompletamento > 0) {
-      this.schedaCorrente?.esercizi.forEach(ex => ex.completato = false);
+    if (this.schedaCorrente && this.percentualeCompletamento > 0) {
+      this.schedaCorrente.esercizi.forEach(ex => ex.completato = false);
+      this.workoutService.salvaSchedaSuBackend(this.schedaCorrente);
     }
   }
 
@@ -115,37 +123,35 @@ export class WorkoutListComponent implements OnInit {
   }
   
   aggiungiScheda(nome: string) {
-      const nuova: Scheda = {
-        id: Date.now(),
-        nomeScheda: nome,
-        esercizi: [],
-        giorniSettimana: [],
-      };
-      // Usiamo il metodo del servizio per mantenere l'integrità dei dati
-      // (Oppure, se preferisci aggiornare localmente l'array del service)
-      const listaAttuale = [...this.workoutService.schede()];
-      listaAttuale.push(nuova);
-      (this.workoutService as any).schedeSignal.set(listaAttuale); 
-      
-      this.schedaAttivaIndex.set(listaAttuale.length - 1);
+      this.workoutService.creaNuovaScheda(nome);
+
+      setTimeout(() => {
+        this.schedaAttivaIndex.set(this.workoutService.schede().length - 1);
+      }, 100);
   }
 
   rimuoviSchedaCorrente() {
     const scheda = this.schedaCorrente;
     if (!scheda) return;
     
-    const conferma = window.confirm(`Eliminare la scheda "${scheda.nomeScheda}"?`);
+    const conferma = window.confirm(`Eliminare la scheda "${scheda.nome}"?`);
     if (conferma) {
       const listaAttuale = this.workoutService.schede().filter(s => s.id !== scheda.id);
-      (this.workoutService as any).schedeSignal.set(listaAttuale);
+      this.workoutService.updateGiorniSettimana(scheda.id!, []);
       this.schedaAttivaIndex.set(0);
     }
   }
 
-  // Funzione per aggiornare i giorni programmata (da chiamare nel template)
+  salvaModificheScheda() {
+    if (this.schedaCorrente) {
+      this.workoutService.salvaSchedaSuBackend(this.schedaCorrente);
+    }
+  }
+
+
   toggleGiorno(index: number) {
     const scheda = this.schedaCorrente;
-    if (!scheda) return;
+    if (!scheda || scheda.id === undefined) return;
 
     let nuoviGiorni = [...(scheda.giorniSettimana || [])];
     if (nuoviGiorni.includes(index)) {

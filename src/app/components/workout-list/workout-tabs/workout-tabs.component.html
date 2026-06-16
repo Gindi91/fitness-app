@@ -3,7 +3,7 @@
     <button *ngFor="let scheda of schede; let i = index" 
             (click)="seleziona(i)"
             [class.active]="attivaIndex === i">
-      {{ scheda.nomeScheda }}
+      {{ scheda.nome }}
     </button>
     
     <button class="btn-tab-add" (click)="mostraFormScheda = !mostraFormScheda"> + </button>

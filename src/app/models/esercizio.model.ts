@@ -1,5 +1,5 @@
 export interface Esercizio {
-  id: number;
+  id?: number;
   nome: string;
   serie: number;
   ripetizioni: number;
@@ -9,8 +9,10 @@ export interface Esercizio {
 }
 
 export interface Scheda {
-  id: number;
-  nomeScheda: string;
-  giorniSettimana: number[];
+  id?: number;
+  nome: string;     
+  descrizione?: string;
   esercizi: Esercizio[];
+  giorniSettimana: number[];
 }
+

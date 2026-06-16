@@ -15,13 +15,13 @@ export class WeightTrackerComponent {
   showWeightForm = signal(false);
   
   tempWeight = 0;
-  tempDate = new Date().toISOString().split('T')[0];
+  tempDate = new Date().toISOString().split('T')[0]; // CORRETTO: Aggiunto [0] per estrarre la stringa YYYY-MM-DD
 
   constructor(public nutritionService: NutritionService) {}
 
   saveWeight() {
     if (this.tempWeight > 0) {
-      this.nutritionService.addWeight(this.tempWeight, new Date(this.tempDate));
+      this.nutritionService.addWeight(this.tempWeight, this.tempDate);
       this.showWeightForm.set(false);
     }
   }
@@ -34,17 +34,16 @@ export class WeightTrackerComponent {
       x: { grid: { display: false }, ticks: { color: '#8e8e93' } }
     },
     plugins: {
-      legend: { display: false } // Nascondiamo la legenda per pulizia
+      legend: { display: false }
     }
   };
 
-  // Dati Dinamici per il PESO
   weightChartData = computed<ChartData<'line'>>(() => {
     const history = this.nutritionService.weightHistory();
     return {
-      labels: history.map(h => new Date(h.date).toLocaleDateString('it-IT', {day: 'numeric', month: 'short'})),
+      labels: history.map(h => new Date(h.data).toLocaleDateString('it-IT', {day: 'numeric', month: 'short'})),
       datasets: [{
-        data: history.map(h => h.value),
+        data: history.map(h => h.valore),
         label: 'Peso (kg)',
         borderColor: '#27ae60',
         backgroundColor: 'rgba(39, 174, 96, 0.2)',
@@ -54,9 +53,8 @@ export class WeightTrackerComponent {
     };
   });
 
-  // Dati Dinamici per le CALORIE
   caloriesChartData = computed<ChartData<'bar'>>(() => {
-    const dailyCals = this.nutritionService.caloriesPerDay(); // Assumendo che esista nel service
+    const dailyCals = this.nutritionService.caloriesPerDay();
     return {
       labels: Object.keys(dailyCals),
       datasets: [{

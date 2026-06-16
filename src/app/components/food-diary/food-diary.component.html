@@ -8,13 +8,8 @@
     <app-nutrition-summary></app-nutrition-summary>
   </section>
 
-<!-- food-diary.component.html -->
-
-
-
   <!-- Sezione 2: Grafico del Peso e Obiettivi -->
   <section class="section-card">
-
     <app-weight-tracker></app-weight-tracker>
   </section>
 </div>
@@ -32,11 +27,13 @@
             @for (food of foods; track food.id) {
               <div class="food-item">
                 <div class="food-info">
-                  <span class="name">{{ food.name }} ({{ food.grams }}g)</span>
-                  <span class="macros">P: {{food.protein}}g | C: {{food.carbs}}g | F: {{food.fat}}g</span>
+                  <!-- MODIFICATO: food.name -> food.nome, food.protein -> food.proteine, food.carbs -> food.carboidrati, food.fat -> food.grassi -->
+                  <span class="name">{{ food.nome }} ({{ food.grams }}g)</span>
+                  <span class="macros">P: {{food.proteine}}g | C: {{food.carboidrati}}g | F: {{food.grassi}}g</span>
                 </div>
                 <div class="food-actions">
-                  <span class="kcals">{{ food.calories }} kcal</span>
+                  <!-- MODIFICATO: food.calories -> food.calorie -->
+                  <span class="kcals">{{ food.calorie }} kcal</span>
                   <button class="btn-icon delete" (click)="nutritionService.deleteEntry(food.id)">🗑️</button>
                 </div>
               </div>
@@ -50,7 +47,6 @@
   }
 </div>
 
-
 <!-- Tasto Flottante (FAB) per aggiungere -->
 <button class="fab-add" (click)="toggleAddFood()">+</button>
 
@@ -63,17 +59,16 @@
       </header>
 
       <div class="modal-body">
-        <!-- Sezione 1: Info Base -->
         <div class="form-section">
           <div class="input-group">
             <label>Nome</label>
             <input type="text" [(ngModel)]="foodName" placeholder="Es. Pollo e riso">
           </div>
 
-            <div class="input-group">
-              <label>Quantità (g)</label>
-              <input type="number" [(ngModel)]="newGrams" inputmode="numeric">
-            </div>
+          <div class="input-group">
+            <label>Quantità (g)</label>
+            <input type="number" [(ngModel)]="newGrams" inputmode="numeric">
+          </div>
           
           <div class="form-row">
             <div class="input-group">
@@ -91,7 +86,6 @@
           </div>
         </div>
 
-        <!-- Sezione 2: Macro (Griglia 3 colonne) -->
         <div class="macro-inputs">
           <div class="input-group">
             <label>Prot (g)</label>
