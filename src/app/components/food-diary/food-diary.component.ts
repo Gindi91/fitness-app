@@ -35,7 +35,7 @@ export class FoodDiaryComponent {
         // MODIFICATO: Mappatura con le proprietà in italiano coerenti con il Service e Java
         this.nutritionService.addEntry({
           nome: this.foodName || 'Nuovo Alimento',
-          grams: this.newGrams, // Se nel DB Java hai rinominato in grammi, cambia anche qui in grammi
+          grammi: this.newGrams, // Se nel DB Java hai rinominato in grammi, cambia anche qui in grammi
           proteine: this.newP,
           carboidrati: this.newC,
           grassi: this.newF,

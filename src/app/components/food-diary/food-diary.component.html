@@ -24,20 +24,27 @@
           <div class="meal-block">
             <h4 class="meal-title">{{ mealType }}</h4>
             
-            @for (food of foods; track food.id) {
-              <div class="food-item">
-                <div class="food-info">
-                  <!-- MODIFICATO: food.name -> food.nome, food.protein -> food.proteine, food.carbs -> food.carboidrati, food.fat -> food.grassi -->
-                  <span class="name">{{ food.nome }} ({{ food.grams }}g)</span>
-                  <span class="macros">P: {{food.proteine}}g | C: {{food.carboidrati}}g | F: {{food.grassi}}g</span>
-                </div>
-                <div class="food-actions">
-                  <!-- MODIFICATO: food.calories -> food.calorie -->
-                  <span class="kcals">{{ food.calorie }} kcal</span>
-                  <button class="btn-icon delete" (click)="nutritionService.deleteEntry(food.id)">🗑️</button>
-                </div>
-              </div>
-            }
+@for (food of foods; track food.id) {
+  <div class="food-item">
+    <div class="food-info">
+      <!-- Mostriamo i grammi controllando che esistano -->
+      <span class="name">{{ food.nome }} ({{ food.grammi || 0 }}g)</span>
+      
+      <!-- Calcolo sicuro dei macro con fallback a 0 per evitare i NaN -->
+      <span class="macros">
+        P: {{ (((food.proteine || 0) * (food.grammi || 0)) / 100) | number:'1.0-1' }}g | 
+        C: {{ (((food.carboidrati || 0) * (food.grammi || 0)) / 100) | number:'1.0-1' }}g | 
+        F: {{ (((food.grassi || 0) * (food.grammi || 0)) / 100) | number:'1.0-1' }}g
+      </span>
+    </div>
+    <div class="food-actions">
+      <!-- Calcolo sicuro delle calorie -->
+      <span class="kcals">{{ (((food.calorie || 0) * (food.grammi || 0)) / 100) | number:'1.0-0' }} kcal</span>
+      <button class="btn-icon delete" (click)="nutritionService.deleteEntry(food.id)">🗑️</button>
+    </div>
+  </div>
+}
+
           </div>
         }
       }

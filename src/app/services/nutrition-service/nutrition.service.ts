@@ -7,7 +7,7 @@ export type MealTag = 'Colazione' | 'Pranzo' | 'Cena' | 'Merenda 1' | 'Merenda 2
 export interface FoodEntry {
   id: number;
   nome: string;        // Mappato da 'name'
-  grams: number;       // Se nel DB Java si chiama grammi, cambialo in 'grammi'
+  grammi: number;       // Se nel DB Java si chiama grammi, cambialo in 'grammi'
   proteine: number;    // Mappato da 'protein'
   carboidrati: number; // Mappato da 'carbs'
   grassi: number;      // Mappato da 'fat'
@@ -118,11 +118,21 @@ export class NutritionService {
     });
   }
 
-  // --- LOGICA COMPUTED AGGIORNATA CON I CAMPI IN ITALIANO ---
-  currentProtein = computed(() => this.foodHistory().reduce((acc, f) => acc + f.proteine, 0));
-  currentCarbs = computed(() => this.foodHistory().reduce((acc, f) => acc + f.carboidrati, 0));
-  currentFat = computed(() => this.foodHistory().reduce((acc, f) => acc + f.grassi, 0));
-  currentCalories = computed(() => (this.currentProtein() * 4) + (this.currentCarbs() * 4) + (this.currentFat() * 9));
+  currentProtein = computed(() => 
+    this.foodHistory().reduce((acc, f) => acc + ((Number(f.proteine) * Number(f.grammi)) / 100), 0)
+  );
+
+  currentCarbs = computed(() => 
+    this.foodHistory().reduce((acc, f) => acc + ((Number(f.carboidrati) * Number(f.grammi)) / 100), 0)
+  );
+
+  currentFat = computed(() => 
+    this.foodHistory().reduce((acc, f) => acc + ((Number(f.grassi) * Number(f.grammi)) / 100), 0)
+  );
+
+  currentCalories = computed(() => 
+    (this.currentProtein() * 4) + (this.currentCarbs() * 4) + (this.currentFat() * 9)
+  );
 
   calProgress = computed(() => (this.currentCalories() / this.targetCalories()) * 100);
   protProgress = computed(() => (this.currentProtein() / this.targetProtein()) * 100);
@@ -150,7 +160,9 @@ export class NutritionService {
     const daily: { [date: string]: number } = {};
     history.forEach(f => {
       const d = new Date(f.data).toLocaleDateString();
-      daily[d] = (daily[d] || 0) + f.calorie;
+      // Calcoliamo le calorie dell'alimento specifico proporzionate ai suoi grammi
+      const calorieAlimentoEffettive = (f.calorie * f.grammi) / 100;
+      daily[d] = (daily[d] || 0) + calorieAlimentoEffettive;
     });
     return daily;
   });
